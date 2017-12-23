@@ -33,6 +33,7 @@
         "react-stepzilla": "^4.6.3",
         "react-syntax-highlighter": "^5.7.0",
         "react-tagsinput": "^3.18.0",
+        "source-map": "^0.6.1",
         "wnumb": "^1.1.0"
     },
     "scripts": {
