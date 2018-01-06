@@ -19,6 +19,10 @@ import VectorMap from 'views/Maps/VectorMap.jsx';
 import Charts from 'views/Charts/Charts.jsx';
 import Calendar from 'views/Calendar/Calendar.jsx';
 import UserPage from 'views/Pages/UserPage.jsx';
+import AddOrderPage from 'views/Orders/AddOrderPage.jsx';
+import PendingOrdersPage from 'views/Orders/PendingOrdersPage.jsx';
+import GeneratePlanPage from 'views/Plans/GeneratePlanPage.jsx';
+import DeliveriesHistoryPage from 'views/Plans/DeliveriesHistoryPage.jsx';
 
 import pagesRoutes from './pages.jsx';
 
@@ -26,6 +30,17 @@ var pages = [{ path: "/pages/user-page", name: "User Page", mini: "UP", componen
 
 var dashRoutes = [
     { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard },
+
+    { collapse: true, path: "/orders", name:"Orders", state:"openOrders", icon:"pe-7s-gift", views:[
+        {path: "/add-order", name: "Add Order", mini: "AO", component: AddOrderPage},
+        {path: "/pending-orders", name:"Pending Orders", mini: "PO", component: PendingOrdersPage}
+    ]},
+
+    { collapse: true, path: "/plans", name:"Plans", state:"openPlans", icon:"pe-7s-car", views:[
+        {path: "/generate-deliveries", name: "Generate Deliveries Plan", mini: "GD", component: GeneratePlanPage},
+        {path: "/deliveries-history", name:"Deliveries History", mini: "DH", component: DeliveriesHistoryPage}
+    ]},
+  
     { collapse: true, path: "/components", name: "Components", state: "openComponents", icon: "pe-7s-plugin", views:[
         { path: "/components/buttons", name: "Buttons", mini: "B", component: Buttons },
         { path: "/components/grid-system", name: "Grid System", mini: "GS", component: GridSystem },

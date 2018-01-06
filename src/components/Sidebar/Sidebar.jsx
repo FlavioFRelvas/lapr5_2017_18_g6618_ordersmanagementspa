@@ -10,7 +10,7 @@ import HeaderLinks from 'components/Header/HeaderLinks.jsx';
 // backgroundImage for Sidebar
 import image from 'assets/img/full-screen-image-3.jpg';
 // image for avatar in Sidebar
-import avatar from 'assets/img/default-avatar.png';
+import avatar from 'assets/img/faces/face-1.jpg';
 // logo for sidebar
 import logo from "logo.svg";
 
@@ -74,7 +74,7 @@ class Sidebar extends Component{
                         </div>
                 	</a>
                 	<a href="http://www.creative-tim.com" className="simple-text logo-normal">
-                		Creative Tim
+                		Orders SPA
                 	</a>
                 </div>
                 <div className="sidebar-wrapper" ref="sidebarWrapper">
@@ -85,7 +85,7 @@ class Sidebar extends Component{
                         <div className="info">
                             <a onClick={ ()=> this.setState({ openAvatar: !this.state.openAvatar })}>
                                 <span>
-                                    Tania Andrew
+                                    Supplier
                                     <b className={this.state.openAvatar ? "caret rotate-180":"caret"}></b>
                                 </span>
                             </a>
