@@ -6,7 +6,6 @@ import {
 
 import Card from 'components/Card/Card.jsx';
 
-import Checkbox from 'elements/CustomCheckbox/CustomCheckbox.jsx';
 import Button from 'elements/CustomButton/CustomButton.jsx';
 
 // react component that creates a dropdown menu for selecting a date
@@ -43,7 +42,7 @@ class ValidationForms extends Component {
 
     componentWillMount() {
         fetch('https://lapr5-g6618-pharmacy-management.azurewebsites.net/api/pharmacy')
-            .then(results => {
+            .then(results => { 
                 return results.json();
             })
             .then(data => {

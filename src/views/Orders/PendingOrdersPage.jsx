@@ -16,8 +16,7 @@ const dataTable = {
     footerRow: [ 'Order Date', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction'],
     dataRows: [
         ['Order Date1', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
-        ['Order Date2', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
-    ]
+          ]
 };
 
 class DataTables extends Component{
@@ -34,6 +33,7 @@ class DataTables extends Component{
         });
         var table = $('#datatables').DataTable();
 
+        /*
         // Edit record
         table.on( 'click', '.edit', function () {
             var $tr = $(this).closest('tr');
@@ -47,7 +47,7 @@ class DataTables extends Component{
             var $tr = $(this).closest('tr');
             table.row($tr).remove().draw();
             e.preventDefault();
-        } );
+        } );*/
 
         //Like record
         table.on( 'click', '.like', function () {
@@ -72,12 +72,13 @@ class DataTables extends Component{
                             <h4 className="title">Pending Orders</h4>
                             <p className="category">Orders received since XXX and waiting for delivery</p>
                             <Card
-                                title="Data"
+                                title="Table"
                                 content={
                                     <div className="fresh-datatables">
                                         <table id="datatables" ref="main" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{width:"100%"}}>
                                             <thead>
                                                 <tr>
+                                                    
                                                     <th>{ dataTable.headerRow[0] }</th>
                                                     <th>{ dataTable.headerRow[1] }</th>
                                                     <th>{ dataTable.headerRow[2] }</th>
@@ -105,30 +106,7 @@ class DataTables extends Component{
                                                     <th className="text-right">{ dataTable.footerRow[8] }</th>
                                                 </tr>
                                             </tfoot>
-                                            <tbody>
-                                                {
-                                                    dataTable.dataRows.map((prop,key) => {
-                                                        return (
-                                                            <tr key={key}>
-                                                                {
-                                                                    prop.map((prop,key)=> {
-                                                                        return (
-                                                                            <td  key={key}>{prop}</td>
-                                                                        );
-                                                                    })
-                                                                }
-                                                                <td className="text-right">
-
-                      
-                                                                    Delivery Plan<a className="btn btn-simple btn-info btn-icon like"><i className="fa fa-photo"></i></a>
-                                                                    <a className="btn btn-simple" href="#/generate-deliveries"><i className="fa fa-edit"></i></a>
-                                                                   
-                                                                           </td>
-                                                            </tr>
-                                                        )
-                                                    })
-                                                }
-                                            </tbody>
+                                          
                                         </table>
                                     </div>
                                 }

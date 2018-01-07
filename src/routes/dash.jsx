@@ -21,6 +21,7 @@ import Calendar from 'views/Calendar/Calendar.jsx';
 import UserPage from 'views/Pages/UserPage.jsx';
 import AddOrderPage from 'views/Orders/AddOrderPage.jsx';
 import PendingOrdersPage from 'views/Orders/PendingOrdersPage.jsx';
+import OrdersHistoryPage from 'views/Orders/OrdersHistoryPage.jsx';
 import GeneratePlanPage from 'views/Plans/GeneratePlanPage.jsx';
 import DeliveriesHistoryPage from 'views/Plans/DeliveriesHistoryPage.jsx';
 
@@ -33,7 +34,8 @@ var dashRoutes = [
 
     { collapse: true, path: "/orders", name:"Orders", state:"openOrders", icon:"pe-7s-gift", views:[
         {path: "/add-order", name: "Add Order", mini: "AO", component: AddOrderPage},
-        {path: "/pending-orders", name:"Pending Orders", mini: "PO", component: PendingOrdersPage}
+        {path: "/pending-orders", name:"Pending Orders", mini: "PO", component: PendingOrdersPage},
+        {path: "/orders-history", name:"Orders History", mini: "OH", component: OrdersHistoryPage}
     ]},
 
     { collapse: true, path: "/plans", name:"Plans", state:"openPlans", icon:"pe-7s-car", views:[
