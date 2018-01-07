@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 // jQuery plugin - used for DataTables.net
 import $ from 'jquery';
 import {
-    Grid, Row, Col,
-    Accordion, PanelGroup, Panel,
+    Grid, Row, Col
 } from 'react-bootstrap';
 
 import Card from 'components/Card/Card.jsx';
@@ -16,32 +15,14 @@ $.DataTable = require('datatables.net-bs');
 
 
 const dataTable = {
-    headerRow: [ 'Date' ],
-    footerRow: [ 'Date' ],
+    headerRow: [ 'Order Date', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
+    footerRow: [ 'Order Date', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction'],
     dataRows: [
-        ['Date1'],
-        ['Date2'],
-        ['Date3']
-    ]
+        ['Order Date1', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
+          ]
 };
 
 class DataTables extends Component{
-
-//PANEL- Pharmacies
-    componentDidUpdate(e){
-        if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
-            this._reactInternalInstance._currentElement._owner._instance._reactInternalInstance._currentElement._owner._instance.componentDidUpdate(e);
-        }
-    }
-    isMac(){
-        let bool = false;
-        if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
-            bool = true;
-        }
-        return bool;
-    }
-
-    //TABLE
     componentDidMount() {
         // $(this.refs.main).DataTable({
         //     dom: '<"data-table-wrapper"t>',
@@ -90,66 +71,13 @@ class DataTables extends Component{
         return false;
     }
     render() {
-        const defaultPanel = (
-            <PanelGroup id="accordion" ref="panels" onClick={() => this.forceUpdate()}>
-                <Panel
-                    collapsible
-                    header={
-                        <div>
-                        <h6>Pharmacies</h6><b className="caret"></b>
-                        </div>
-                    }
-                    eventKey="1">
-                        <ol>  
-                            <li>Pharmacie1</li>
-                            <li>Pharmacie2</li>  
-                        </ol>
-                </Panel>
-            </PanelGroup>
-        );
-
-        const wayPointsPanel = (
-            <PanelGroup id="accordion" ref="panels" onClick={() => this.forceUpdate()}>
-                <Panel
-                    collapsible
-                    header={
-                        <div>
-                        <h6>Waypoints</h6><b className="caret"></b>
-                        </div>
-                    }
-                    eventKey="2">
-                        <ol>  
-                            <li>Waypoint1</li>
-                            <li>Waypoint2</li>  
-                        </ol>
-                </Panel>
-            </PanelGroup>
-        );
-
-        const nonVisitedPanel = (
-            <PanelGroup id="accordion" ref="panels" onClick={() => this.forceUpdate()}>
-                <Panel
-                    collapsible
-                    header={
-                        <div>
-                        <h6>Non Visited</h6><b className="caret"></b>
-                        </div>
-                    }
-                    eventKey="3">
-                        <ol>  
-                            <li>Pharmacie1</li>  
-                        </ol>
-                </Panel>
-            </PanelGroup>
-        );
-
         return (
             <div className="main-content">
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
-                            <h4 className="title">Deliveries History</h4>
-                            <p className="category">A powerful jQuery plugin to see deliveries plans completed.</p>
+                            <h4 className="title">Orders History</h4>
+                            <p className="category">Consult your orders and search for one item in history.</p>
                             <Card
                                 title="Table"
                                 content={
@@ -158,14 +86,27 @@ class DataTables extends Component{
                                             <thead>
                                                 <tr>
                                                     <th>{ dataTable.headerRow[0] }</th>
-
-                                                    <th className="disabled-sorting text-right">{ dataTable.headerRow[1] }</th>
+                                                    <th>{ dataTable.headerRow[1] }</th>
+                                                    <th>{ dataTable.headerRow[2] }</th>
+                                                    <th>{ dataTable.headerRow[3] }</th>
+                                                    <th>{ dataTable.headerRow[4] }</th>
+                                                    <th>{ dataTable.headerRow[5] }</th>
+                                                    <th>{ dataTable.headerRow[6] }</th>
+                                                    <th>{ dataTable.headerRow[7] }</th>
+                                                    <th className="disabled-sorting text-right">{ dataTable.headerRow[8] }</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>{ dataTable.footerRow[0] }</th>
-                                                    <th className="text-right">{ dataTable.footerRow[1] }</th>
+                                                    <th>{ dataTable.footerRow[1] }</th>
+                                                    <th>{ dataTable.footerRow[2] }</th>
+                                                    <th>{ dataTable.footerRow[3] }</th>
+                                                    <th>{ dataTable.footerRow[4] }</th>
+                                                    <th>{ dataTable.footerRow[5] }</th>
+                                                    <th>{ dataTable.footerRow[6] }</th>
+                                                    <th>{ dataTable.footerRow[7] }</th>
+                                                    <th className="text-right">{ dataTable.footerRow[8] }</th>
                                                 </tr>
                                             </tfoot>
                                             <tbody>
@@ -181,22 +122,9 @@ class DataTables extends Component{
                                                                     })
                                                                 }
                                                                 <td className="text-right">
-                                                                <Col md={4}>
-                                                                    <Card
-                                                                        content={defaultPanel}
-                                                                    />
-                                                                </Col>
-                                                                <Col md={4}>
-                                                                    <Card
-                                                                        content={wayPointsPanel}
-                                                                    />
-                                                                </Col>
-                                                                <Col md={4}>
-                                                                    <Card
-                                                                        content={nonVisitedPanel}
-                                                                    />
-                                                                </Col>
-                                                                  
+                                                                    <a className="btn btn-simple btn-info btn-icon like">Delivery Plan <i className="fa fa-photo"></i></a>
+                                                                    <a className="btn btn-simple btn-warning btn-icon edit"><i className="fa fa-edit"></i></a>
+                                                                    <a className="btn btn-simple btn-danger btn-icon remove"><i className="fa fa-times"></i></a>
                                                                 </td>
                                                             </tr>
                                                         )
