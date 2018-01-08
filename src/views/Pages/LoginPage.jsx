@@ -39,7 +39,7 @@ class LoginPage extends Component{
             return results.json();
         })
             .then(data => {
-                console.log
+               //FIXME
             })
     }
 
