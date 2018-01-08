@@ -14,7 +14,7 @@ class Insert extends Component {
         super(props);
         this.state = {
             dataTable: {
-                headerRow: ["Id", "Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
+                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
                 dataRows: []
             }
         }
@@ -34,7 +34,6 @@ class Insert extends Component {
         }).then(data=> {
 
             let rows = data.map((order) => {
-                console.log("Order", order);
                 return [
                    order.requestDate,
                    order.orderDate,
@@ -52,10 +51,6 @@ class Insert extends Component {
                 headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
                 dataRows: rows
             };
-
-            console.log("Data", data);
-            console.log("orders", orders);
-
             this.setState({ dataTable: orders});
         })
     }
@@ -66,7 +61,7 @@ class Insert extends Component {
 
             if (this.state.dataTable.dataRows.length !== 0) {
                 table = <Table title="Orders" content={this.state.dataTable} />
-                console.log("Table", table);
+       
             } else {
                 table = null;
             }
