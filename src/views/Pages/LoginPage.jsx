@@ -12,7 +12,9 @@ class LoginPage extends Component{
     constructor(props){
         super(props);
         this.state = {
-            cardHidden: true
+            cardHidden: true,
+            cardHidden2: true,
+            cardTitle: "Login Failed",
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,7 +23,7 @@ class LoginPage extends Component{
     }
     
     handleSubmit(event) {
-        alert('A email was submitted: ' + this.email.value + ' Password: ' + this.password.value);
+      
         event.preventDefault();
         fetch('http://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
             method: 'POST',
@@ -34,12 +36,20 @@ class LoginPage extends Component{
                 password: this.password.value,
             }),
         }).then(results => {
-          
-            //FIXME Header with token
+
             return results.json();
         })
             .then(data => {
-               //FIXME
+                console.log(data);
+
+                if (data.error == null) {
+                    localStorage.setItem("token", data.token_type + " " + data.token);
+                    this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
+                    setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
+                } else {
+                    this.setState({ cardHidden2: false, cardTitle: "Login Failed" })
+                }
+               
             })
     }
 
@@ -62,6 +72,7 @@ class LoginPage extends Component{
                                             <FormControl
                                                 placeholder="Enter email"
                                                 type="name"
+                                                inputRef={(email) => this.email = email}
                                              />
                                         </FormGroup>
                                         <FormGroup>
@@ -71,16 +82,23 @@ class LoginPage extends Component{
                                             <FormControl
                                                 placeholder="Password"
                                                 type="password"
+                                                inputRef={(password) => this.password = password}
+                                       
                                             />
                                         </FormGroup>
                                     </div>
                                 }
                                 legend={
-                                    <Button bsStyle="info" fill wd>
+                                    <Button type="submit" bsStyle="info" fill wd >
                                         Login
                                     </Button>
                                 }
                                 ftTextCenter
+                                />
+                                <Card
+                                hidden={this.state.cardHidden2}
+                                textCenter
+                                content={<div className="text-center"><b>{this.state.cardTitle}</b></div>}
                             />
                         </form>
                     </Col>

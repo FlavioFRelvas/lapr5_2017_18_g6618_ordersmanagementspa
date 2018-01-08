@@ -57,19 +57,17 @@ class ValidationForms extends Component {
             })
             .then(data => {
                 let pharmacies = data.map((pharmacy) => {
+                    
                     return {
                         value: pharmacy._id,
                         label: pharmacy.name,
-                        value_lat: pharmacy.latitude,
-                        value_long: pharmacy.longitude
                     }
                 });
 
                 this.setState({ pharmacies: pharmacies });
+                console.log("state", this.state.pharmacies);
             });
-    }
-
-    
+    }   
 
     handleTypeValidation() {
 
@@ -81,10 +79,6 @@ class ValidationForms extends Component {
 
         this.state.type_timeError === null ? this.setState({ type_timeError: (<small className="text-danger">Time restriction is required.</small>) }) : this.setState({ type_timeError: null });
 
-    }
-
-    componentDidUpdate(){
-        
     }
 
     render() {
@@ -147,7 +141,7 @@ class ValidationForms extends Component {
                                                 <Col componentClass={ControlLabel} sm={2} smOffset={2}>
                                                     Pharmacy
                                             </Col>
-                                                <Col sm={6}>
+                                             <Col sm={6}>
 
                                                     <Select
                                                         placeholder="Select Pharmacy"
@@ -156,10 +150,7 @@ class ValidationForms extends Component {
                                                         options={this.state.pharmacies}
                                                         onChange={(value) => {
                                                             this.setState({ singleSelect: value });
-                                                            //FIXME -> Pharmacy Location values
-                                                      //      this.setState({ value_latitude: this.state.type_latitude }),
-                                                        //        this.setState({ value_longitude: this.state.type_longitude })
-                                                        }}
+                                                      }}
                                                     />
                                                     {this.state.type_selectError}
                                                 </Col>
