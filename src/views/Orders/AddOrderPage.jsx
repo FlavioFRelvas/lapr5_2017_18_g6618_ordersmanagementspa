@@ -15,6 +15,8 @@ import Datetime from 'react-datetime';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
+var config=require('../../config');
+
 class ValidationForms extends Component {
     constructor(props) {
         super(props);
@@ -41,8 +43,16 @@ class ValidationForms extends Component {
     }
 
     componentWillMount() {
-        fetch('https://lapr5-g6618-pharmacy-management.azurewebsites.net/api/pharmacy')
-            .then(results => { 
+        fetch('https://lapr5-g6618-pharmacy-management.azurewebsites.net/api/pharmacy',
+        {method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem("token"),
+                client_id: config.CLIENT_ID,
+                client_secret: config.CLIENT_SECRET
+            },
+        }).then(results => { 
                 return results.json();
             })
             .then(data => {
@@ -59,6 +69,8 @@ class ValidationForms extends Component {
             });
     }
 
+    
+
     handleTypeValidation() {
 
         this.state.type_text === "" ? this.setState({ type_textError: (<small className="text-danger">This field is required.</small>) }) : this.setState({ type_textError: null });
@@ -70,6 +82,11 @@ class ValidationForms extends Component {
         this.state.type_timeError === null ? this.setState({ type_timeError: (<small className="text-danger">Time restriction is required.</small>) }) : this.setState({ type_timeError: null });
 
     }
+
+    componentDidUpdate(){
+        
+    }
+
     render() {
         return (
             <div className="main-content">
@@ -140,8 +157,8 @@ class ValidationForms extends Component {
                                                         onChange={(value) => {
                                                             this.setState({ singleSelect: value });
                                                             //FIXME -> Pharmacy Location values
-                                                            this.setState({ value_latitude: "test" }),
-                                                                this.setState({ value_longitude: this.state.type_longitude })
+                                                      //      this.setState({ value_latitude: this.state.type_latitude }),
+                                                        //        this.setState({ value_longitude: this.state.type_longitude })
                                                         }}
                                                     />
                                                     {this.state.type_selectError}

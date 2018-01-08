@@ -17,9 +17,6 @@ import Footer from 'components/Footer/Footer.jsx';
 // dinamically create dashboard routes
 import dashRoutes from 'routes/dash.jsx';
 
-// style for notifications
-import { style } from "variables/Variables.jsx";
-
 class Dash extends Component{
     constructor(props){
         super(props);
@@ -90,7 +87,7 @@ class Dash extends Component{
     render(){
         return (
             <div className="wrapper">
-                <NotificationSystem ref="notificationSystem" style={style}/>
+                <NotificationSystem ref="notificationSystem" />
                 <Sidebar {...this.props} />
                 <div className={"main-panel"+(this.props.location.pathname === "/maps/full-screen-maps" ? " main-panel-maps":"")} ref="mainPanel">
                     <Header {...this.props}/>

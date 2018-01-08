@@ -32,7 +32,7 @@ class PagesHeader extends Component{
                 <Navbar.Header>
                     <Navbar.Brand>
                         <NavLink to={'/dashboard'} className="nav-link">
-                            { this.state.width > 429 ? "Light Bootstrap Dashboard Pro React":"LBD PRO React" }
+                            { this.state.width > 429 ? "Orders Front-End - SPA":"OrdersSPA" }
                         </NavLink>
                     </Navbar.Brand>
                     <Navbar.Toggle onClick={this.mobileSidebarToggle} />

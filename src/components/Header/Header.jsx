@@ -14,7 +14,30 @@ class Header extends Component{
         super(props);
         this.handleMinimizeSidebar = this.handleMinimizeSidebar.bind(this);
         this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
+        this.state={
+            authenticated: false
+        }
+        this.login=this.login.bind(this);
+        this.logout=this.logout.bind(this);
     }
+
+    login() {
+        // We can call the show method from Auth0Lock,
+        // which is passed down as a prop, to allow
+        // the user to log in
+        this.props.lock.show((err, profile, token) => {
+            if (err) {
+                alert(err);
+                return;
+            }
+            this.setState({ authenticated: true });
+        });
+    }
+    logout() {
+        // AuthActions.logUserOut();
+        this.setState({ authenticated: false });
+    }
+
     makeBrand(){
         var name;
         dashRoutes.map((prop,key) => {
@@ -60,7 +83,7 @@ class Header extends Component{
                 <Navbar.Header>
                     <Navbar.Brand>
                         {/* Here we create navbar brand, based on route name */}
-                        <a href="#pablo">{this.makeBrand()}</a>
+                        <a href="#di">{this.makeBrand()}</a>
                     </Navbar.Brand>
                     <Navbar.Toggle onClick={this.mobileSidebarToggle} />
                 </Navbar.Header>

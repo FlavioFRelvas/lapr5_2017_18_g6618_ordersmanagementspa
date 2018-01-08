@@ -17,6 +17,7 @@ class HeaderLinks extends Component{
                         </InputGroup>
                     </FormGroup>
                 </Navbar.Form>
+
                 <Nav pullRight>
                     <NavItem eventKey={3} href="/dashboard">
                         <i className="fa fa-line-chart"></i>
