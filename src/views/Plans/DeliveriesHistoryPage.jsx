@@ -34,17 +34,41 @@ class Insert extends Component {
         }).then(data=> {
 
             let rows = data.map((delivery) => {
+
+                let pharmacies= delivery.VisitedPharmacies.map((pharmacy) => {
+                    return [
+                        pharmacy.name
+                    ]
+                });
+
+                let waypoints= delivery.OrderedWaypoints.map((way) =>{
+                    return [
+                        way.latitude,
+                        way.longitude
+                    ]
+                });
+
+                let nonvisited= delivery.NonVisitedPharmacies.map((non) =>{
+                    return [
+                        non.name
+                    ]
+                })
+
                 return [
-                   delivery.date
+                  delivery.id,
+                    delivery.date,
+                   pharmacies,
+                   waypoints,
+                  nonvisited
                 ]
             });
-            console.log("DataRows", rows);
-
+    
             var deliveries= {
-                headerRow: ["Date"],
+                headerRow: ["Date", "Lists"],
                 dataRows: rows
             };
-            this.setState({ dataTable: deliveries});
+
+            this.setState({dataTable: deliveries});
         })
     }
     

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import {
-    Grid, Row, Col,
     PanelGroup, Panel,
 } from 'react-bootstrap';
 
@@ -17,7 +16,7 @@ $.DataTable = require('datatables.net-bs');
 class Table2 extends Component {
     constructor(props, state) {
         super(props);
-        console.log("props", this.props.content);
+       
         this.state = {
             title: this.props.title,
             dataTable: {
@@ -40,6 +39,7 @@ class Table2 extends Component {
         // var table = $('#datatables').DataTable();
     }
     render() {
+ 
         return <Card
             title={this.state.title}
             content={
@@ -54,6 +54,7 @@ class Table2 extends Component {
                         <tbody>
 
                             {
+            
                                 this.state.dataTable.dataRows.map((prop, key) => {
                                     return (
 
@@ -61,7 +62,7 @@ class Table2 extends Component {
 
                                             {prop.map((prop, key) => {
 
-                                                console.log("test", this.state.dataTable.dataRows);
+                                              
                                                 return (
 
                                                     <td key={key}>{prop}</td>
