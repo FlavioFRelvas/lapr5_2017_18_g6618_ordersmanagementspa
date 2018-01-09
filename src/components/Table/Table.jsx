@@ -62,9 +62,7 @@ class Table extends Component {
                                 this.state.dataTable.dataRows.map((prop, key) => {
                                     return (
                                         <tr key={key}>
-                                            {console.log("Key", key)}{
-                                                prop.map((prop, key) => {
-                                                    console.log("Prop", prop)
+                                           {prop.map((prop, key) => {
                                                     return (
                                                         <td key={key}>{prop}</td>
                                                     );

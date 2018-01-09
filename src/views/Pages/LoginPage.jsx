@@ -4,12 +4,14 @@ import {
     FormGroup, ControlLabel, FormControl
 } from 'react-bootstrap';
 
+import * as jwt_decode from 'jwt-decode';
+
 import Card from 'components/Card/Card.jsx';
 
 import Button from 'elements/CustomButton/CustomButton.jsx';
 
-class LoginPage extends Component{
-    constructor(props){
+class LoginPage extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             cardHidden: true,
@@ -18,12 +20,12 @@ class LoginPage extends Component{
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    componentDidMount(){
-        setTimeout(function() { this.setState({cardHidden: false}); }.bind(this), 700);
+    componentDidMount() {
+        setTimeout(function () { this.setState({ cardHidden: false }); }.bind(this), 700);
     }
-    
+
     handleSubmit(event) {
-      
+
         event.preventDefault();
         fetch('http://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
             method: 'POST',
@@ -43,17 +45,34 @@ class LoginPage extends Component{
                 console.log(data);
 
                 if (data.error == null) {
-                    localStorage.setItem("token", data.token_type + " " + data.token);
-                    this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
-                    setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
+                    const tokenDecoded = jwt_decode(data.token);
+                    let userInfo = {
+                        id: tokenDecoded.sub,
+                        name: this.email.value,
+                        email: tokenDecoded["https://lapr5.isep.pt/email"],
+                        pharmacy: tokenDecoded["https://lapr5.isep.pt/user_info"].pharmacy_id,
+                        roles: tokenDecoded["https://lapr5.isep.pt/roles"]
+                    }
+                    console.log("Roles", userInfo.roles);
+                    if (userInfo.roles.includes("supplier")) {
+                        localStorage.setItem("token", data.token_type + " " + data.token);
+
+
+
+
+                        this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
+                        setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
+                    } else {
+                        this.setState({ cardHidden2: false, cardTitle: "Login Failed" })
+                    }
                 } else {
                     this.setState({ cardHidden2: false, cardTitle: "Login Failed" })
                 }
-               
+
             })
     }
 
-    render(){
+    render() {
         return (
             <Grid>
                 <Row>
@@ -73,7 +92,7 @@ class LoginPage extends Component{
                                                 placeholder="Enter email"
                                                 type="name"
                                                 inputRef={(email) => this.email = email}
-                                             />
+                                            />
                                         </FormGroup>
                                         <FormGroup>
                                             <ControlLabel>
@@ -83,7 +102,7 @@ class LoginPage extends Component{
                                                 placeholder="Password"
                                                 type="password"
                                                 inputRef={(password) => this.password = password}
-                                       
+
                                             />
                                         </FormGroup>
                                     </div>
@@ -94,8 +113,8 @@ class LoginPage extends Component{
                                     </Button>
                                 }
                                 ftTextCenter
-                                />
-                                <Card
+                            />
+                            <Card
                                 hidden={this.state.cardHidden2}
                                 textCenter
                                 content={<div className="text-center"><b>{this.state.cardTitle}</b></div>}

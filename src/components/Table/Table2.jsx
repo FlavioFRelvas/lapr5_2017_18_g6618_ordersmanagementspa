@@ -9,9 +9,10 @@ import Card from 'components/Card/Card.jsx';
 require('datatables.net-responsive');
 $.DataTable = require('datatables.net-bs');
 
-class Table extends Component {
+class Table2 extends Component {
     constructor(props, state) {
         super(props);
+        console.log("props", this.props.content);
         this.state = {
             title: this.props.title,
             dataTable: {
@@ -22,12 +23,6 @@ class Table extends Component {
     }
     componentDidMount() {
 
-        // $(this.refs.main).DataTable({
-        //     dom: '<"data-table-wrapper"t>',
-        //     data: this.props.names,
-        //     columns,
-        //     ordering: false
-        // });
         $("#datatables").DataTable({
             "pagingType": "full_numbers",
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -48,16 +43,14 @@ class Table extends Component {
                         <thead>
                             <tr>
                                 <th>{this.state.dataTable.headerRow[0]}</th>
-                            </tr>
+                           </tr>
                         </thead>
                         <tbody>
                             {
                                 this.state.dataTable.dataRows.map((prop, key) => {
                                     return (
                                         <tr key={key}>
-                                            {console.log("Key", key)}{
-                                                prop.map((prop, key) => {
-                                                    console.log("Prop", prop)
+                                           {prop.map((prop, key) => {
                                                     return (
                                                         <td key={key}>{prop}</td>
                                                     );
@@ -75,4 +68,4 @@ class Table extends Component {
     }
 }
 
-export default Table;
+export default Table2;

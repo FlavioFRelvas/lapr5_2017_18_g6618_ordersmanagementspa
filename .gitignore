@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+build/asset-manifest.json
+build/static/js/main.fcd4e59c.js.map
+build/asset-manifest.json
+build/index.html
+build/static/js/main.fcd4e59c.js
