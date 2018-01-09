@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+import {
+    Grid, Row, Col,
+    PanelGroup, Panel,
+} from 'react-bootstrap';
+
 // jQuery plugin - used for DataTables.net
 import $ from 'jquery';
 
@@ -16,7 +21,7 @@ class Table2 extends Component {
         this.state = {
             title: this.props.title,
             dataTable: {
-                headerRow: ["Date"],
+                headerRow: [],
                 dataRows: this.props.content.dataRows
             }
         }
@@ -32,7 +37,7 @@ class Table2 extends Component {
                 searchPlaceholder: "Search records",
             }
         });
-       // var table = $('#datatables').DataTable();
+        // var table = $('#datatables').DataTable();
     }
     render() {
         return <Card
@@ -43,23 +48,84 @@ class Table2 extends Component {
                         <thead>
                             <tr>
                                 <th>{this.state.dataTable.headerRow[0]}</th>
-                           </tr>
+                                <th>{this.state.dataTable.headerRow[1]}</th>
+                            </tr>
                         </thead>
                         <tbody>
+
                             {
                                 this.state.dataTable.dataRows.map((prop, key) => {
                                     return (
+
                                         <tr key={key}>
-                                           {prop.map((prop, key) => {
-                                                    return (
-                                                        <td key={key}>{prop}</td>
-                                                    );
-                                                })
+
+                                            {prop.map((prop, key) => {
+
+                                                console.log("test", this.state.dataTable.dataRows);
+                                                return (
+
+                                                    <td key={key}>{prop}</td>
+
+                                                );
+                                            })
                                             }
-                                        </tr>
-                                    )
+
+                                            <td>
+                                                <tr>
+                                             
+                                                        <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                                                            <Panel collapsible header={
+                                                                <div>
+                                                                    <h6>Pharmacie1</h6><b className="caret"></b>
+                                                                </div>
+                                                            }>
+                                                                <ol>
+                                                                    <li>Waypoint1</li>
+                                                                    <li>Waypoint2</li>
+                                                                </ol>
+
+                                                            </Panel>
+                                                        </PanelGroup>
+                                             
+                                                </tr>
+                                                <tr>
+
+                                                    <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                                                        <Panel collapsible header={
+                                                            <div>
+                                                                <h6>Pharmacie2</h6><b className="caret"></b>
+                                                            </div>
+                                                        }>
+                                                            <ol>
+                                                                <li>Waypoint3</li>
+                                                                <li>Waypoint4</li>
+                                                            </ol>
+                                                        </Panel>
+                                                    </PanelGroup>
+                                                </tr>
+
+                                                <tr>
+
+                                                    <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                                                        <Panel collapsible header={
+                                                            <div>
+                                                                <h6>Non Visited</h6><b className="caret"></b>
+                                                            </div>
+                                                        }>
+                                                            <ol>
+                                                                <li>Pharmacy3</li>
+                                                                <li>4</li>
+                                                            </ol>
+                                                        </Panel>
+                                                    </PanelGroup>
+                                                </tr>
+                                            </td>
+
+                                        </tr>)
                                 })
                             }
+
+
                         </tbody>
                     </table>
                 </div>

@@ -53,7 +53,7 @@ class Insert extends Component {
             var table=null;
 
             if (this.state.dataTable.dataRows.length !== 0) {
-                table = <Table2 title="Orders" content={this.state.dataTable} />
+                table = <Table2 title="Deliveries" content={this.state.dataTable} />
        
             } else {
                 table = null;
@@ -62,14 +62,13 @@ class Insert extends Component {
             <div className="main-content">
                 <Grid fluid>
                     <Row>
-                        <Col md={12}>
-          
+           
                             <h4 className="title">Deliveries History</h4>
                             <p className="category">A powerful plugin to consult deliveries plans completed.</p>
                             <Card
                                 content= {table}
                             />
-                        </Col>
+         
                     </Row>
                 </Grid>
             </div>
