@@ -14,7 +14,7 @@ class Insert extends Component {
         super(props);
         this.state = {
             dataTable: {
-                headerRow: ["Date"],
+                headerRow: ["Date", "Id", "Visited", "Non Visited"],
                 dataRows: []
             }
         }

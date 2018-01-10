@@ -20,7 +20,7 @@ class Table2 extends Component {
         this.state = {
             title: this.props.title,
             dataTable: {
-                headerRow: [],
+                headerRow: ["Date", "Id", "Visited", "Non Visited"],
                 dataRows: this.props.content.dataRows
             }
         }
@@ -50,6 +50,8 @@ class Table2 extends Component {
                             <tr>
                                 <th>{this.state.dataTable.headerRow[0]}</th>
                                 <th>{this.state.dataTable.headerRow[1]}</th>
+                                <th>{this.state.dataTable.headerRow[2]}</th>
+                                <th>{this.state.dataTable.headerRow[3]}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,7 +87,7 @@ class Table2 extends Component {
 
                                         {prop[3].map((wayp, key3) => {
 
-                                          /*  console.log("ways", wayp);
+                                        /*   console.log("ways", wayp);
                                             console.log("key3", key3);
                                             console.log("pharm", prop[2]);*/
 
