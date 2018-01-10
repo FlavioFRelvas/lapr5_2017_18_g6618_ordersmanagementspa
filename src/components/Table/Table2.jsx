@@ -16,7 +16,7 @@ $.DataTable = require('datatables.net-bs');
 class Table2 extends Component {
     constructor(props, state) {
         super(props);
-       
+
         this.state = {
             title: this.props.title,
             dataTable: {
@@ -39,7 +39,8 @@ class Table2 extends Component {
         // var table = $('#datatables').DataTable();
     }
     render() {
-      
+        console.log("state", this.state.dataTable.dataRows);
+
         return <Card
             title={this.state.title}
             content={
@@ -53,80 +54,97 @@ class Table2 extends Component {
                         </thead>
                         <tbody>
 
-                            {
-            
-                                this.state.dataTable.dataRows.map((prop, key) => {
-                                    return (
+                            {this.state.dataTable.dataRows.map((prop, key) => {
+                                return (
 
-                                        <tr key={key}>
+                                    <tr key={key}>
 
-                                            {prop.map((prop, key) => {
+                                        {/*Date and Id*/}
 
-                                              
-                                                return (
+                                        <td>{prop[0]}</td>
+                                        <td>{prop[1]}</td>
 
-                                                    <td key={key}>{prop}</td>
+                                        <td>
+                                           
 
-                                                );
-                                            })
-                                            }
+                                                    {/*Visited Pharmacies*/}
+                                                    {prop[2].map((pharm, key2) => {
 
-                                            <td>
-                                                <tr>
-                                             
-                                                        <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
-                                                            <Panel collapsible header={
-                                                                <div>
-                                                                    <h6>Pharmacie1</h6><b className="caret"></b>
-                                                                </div>
-                                                            }>
-                                                                <ol>
-                                                                    <li>Waypoint1</li>
-                                                                    <li>Waypoint2</li>
-                                                                </ol>
+                                                        return (
+                                                            <tr key2={key}>
+                                                                <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
 
-                                                            </Panel>
-                                                        </PanelGroup>
-                                             
-                                                </tr>
-                                                <tr>
+                                                                    <Panel collapsible header={
+                                                                        <div key={key2}>
 
-                                                    <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
-                                                        <Panel collapsible header={
-                                                            <div>
-                                                                <h6>Pharmacie2</h6><b className="caret"></b>
-                                                            </div>
-                                                        }>
-                                                            <ol>
-                                                                <li>Waypoint3</li>
-                                                                <li>Waypoint4</li>
-                                                            </ol>
-                                                        </Panel>
-                                                    </PanelGroup>
-                                                </tr>
+                                                                            <h6>{pharm}</h6><b className="caret"></b>
+                                                                        </div>
+                                                                    }>
+                                                                       
+                                           {/*Visited Waypoints*/}
 
-                                                <tr>
-
-                                                    <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
-                                                        <Panel collapsible header={
-                                                            <div>
-                                                                <h6>Non Visited</h6><b className="caret"></b>
-                                                            </div>
-                                                        }>
-                                                            <ol>
-                                                                <li>Pharmacy3</li>
-                                                                <li>4</li>
-                                                            </ol>
-                                                        </Panel>
-                                                    </PanelGroup>
-                                                </tr>
-                                            </td>
-
-                                        </tr>)
-                                })
-                            }
+                                        {prop[3].map((wayp, key3) => {
+                                            
+                                            return (
+                                                <ul key={key3}><b>Waypoints</b>
+                                                    {wayp.map((coords, key5) => {
+                                                        return(
+                                                           
+                                                               <li><tr>Latitude: {coords[0]}</tr>
+                                                               <tr>Longitude: {coords[1]}</tr></li>
+                                                              
+                                                         
+                                                        )
+                                                    })}                                                   
+                                                </ul>
+                                            )
+                                        })}
 
 
+                                    </Panel>
+                                </PanelGroup>
+
+                            </tr>
+                        );
+
+                    })
+                    }
+            </td>
+
+            {/*Non Visited*/}
+            <td>
+
+                {prop[4].map((prop, key) => {
+                    
+                    return (
+                        <tr key={"4"}>
+                            <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                                
+                            <Panel collapsible header={
+                                <div>
+
+                                    <h6>Non Visited</h6><b className="caret"></b>
+                                </div>
+                            }>
+                                <ul>
+                                    <li key={key}>{prop}</li>
+                                </ul>
+
+                            </Panel>
+                            
+                            </PanelGroup>
+                        </tr>
+                    );
+                
+                })
+                }
+
+            </td>
+
+
+        </tr>)
+})
+}
                         </tbody>
                     </table>
                 </div>

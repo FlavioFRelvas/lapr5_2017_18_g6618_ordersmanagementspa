@@ -52,13 +52,25 @@ class Insert extends Component {
                     return [
                         non.name
                     ]
-                })
+                });
+
+                var i, stop=[];
+                for(i=1; i<waypoints.length; i++){
+
+                    pharmacies.map((find)=>{
+                        pharmacies.filter( (item,index) => item.waypoint===waypoints[i].id)
+                    });
+
+                    stop=[waypoints.filter((item,index)=> index<i)];
+                }
+
+                console.log("stop",stop);
 
                 return [
                   delivery.id,
                     delivery.date,
                    pharmacies,
-                   waypoints,
+                        stop,
                   nonvisited
                 ]
             });
@@ -77,8 +89,6 @@ class Insert extends Component {
             var table=null;
 
             if (this.state.dataTable.dataRows.length !== 0) {
-                console.log("test", this.state.dataTable.dataRows);
- 
                 table = <Table2 title="Deliveries" content={this.state.dataTable} />
        
             } else {

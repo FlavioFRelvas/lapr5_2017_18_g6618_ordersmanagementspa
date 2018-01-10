@@ -2,7 +2,6 @@ import Dashboard from 'views/Dashboard/Dashboard.jsx';
 import AddOrderPage from 'views/Orders/AddOrderPage.jsx';
 import PendingOrdersPage from 'views/Orders/PendingOrdersPage.jsx';
 import OrdersHistoryPage from 'views/Orders/OrdersHistoryPage.jsx';
-import GeneratePlanPage from 'views/Plans/GeneratePlanPage.jsx';
 import DeliveriesHistoryPage from 'views/Plans/DeliveriesHistoryPage.jsx';
 
 var dashRoutes = [
@@ -15,7 +14,6 @@ var dashRoutes = [
     ]},
 
     { collapse: true, path: "/plans", name:"Plans", state:"openPlans", icon:"pe-7s-car", views:[
-        {path: "/generate-deliveries", name: "Generate Deliveries Plan", mini: "GD", component: GeneratePlanPage},
         {path: "/deliveries-history", name:"Deliveries History", mini: "DH", component: DeliveriesHistoryPage}
     ]},
      
