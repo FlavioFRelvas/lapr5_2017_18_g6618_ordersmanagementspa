@@ -83,17 +83,14 @@ class Table2 extends Component {
                                                                         </div>
                                                                     }>
                                                                        
-                                           {/*Visited Waypoints*/}
+                                           {/*Visited Waypoints
+                                           
+                                            instead of prop[3] that refers to all waypoints -> prop[5]
+                                            */}
 
                                         {prop[3].map((wayp, key3) => {
+                                            console.log("prop", prop[5]);
 
-                                        /*   console.log("ways", wayp);
-                                            console.log("key3", key3);
-                                            console.log("pharm", prop[2]);*/
-
-                                           /* while(wayp[2]!==data){
-
-                                            }*/
                                              return (
                                                 <ul key={key3}><b>Waypoints</b>
 

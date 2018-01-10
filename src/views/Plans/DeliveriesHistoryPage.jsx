@@ -57,20 +57,8 @@ class Insert extends Component {
                     ]
                 });
 
-                  /*
-                
-                let stop= pharmacies.map((pharm)=>{
-                   
-                    var list=[]
-                    waypoints.map((way)=>{
-                       
-                        if(way[0]===pharm[1] && way[1]===pharm[2]){
-                          list.push(way);
-                        }
-                    }) 
-                    return list[0];
-                })
-                */
+
+                //------------ WAYPOINTS BETWEEN PHARMACIES --------
 
                 var i, j, finded=[];
            
@@ -83,9 +71,8 @@ class Insert extends Component {
                         }
                     }
                 }
-                console.log("finded", finded);
 
-                /*
+                   /*
                 var finded=pharmacies.map((find)=>{
                     return waypoints.filter( (item) => item[1]===find[2]).collect(item[0]);
                   
@@ -94,13 +81,17 @@ class Insert extends Component {
               //  waypoint.filter( (item,index) => index===pharmacies[i].waypoint)
 
               */
+                console.log("finded", finded);
 
+                //-----------------------------------------------------
+           
                 return [
                   delivery.id,
                     delivery.date,
                    pharmacies,
                    waypoints,
-                  nonvisited, finded
+                  nonvisited, 
+                  finded
                 ]
             });
 
