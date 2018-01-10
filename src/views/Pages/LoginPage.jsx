@@ -27,7 +27,7 @@ class LoginPage extends Component {
     handleSubmit(event) {
 
         event.preventDefault();
-        fetch('http://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
+        fetch('https://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
