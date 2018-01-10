@@ -18,6 +18,7 @@ class App extends Component{
             <Switch>
                 {
                     appRoutes.map((prop,key) => {
+                        console.log("prop", prop);
                         return (
                             <Route path={prop.path} component={prop.component} key={key} />
                         );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Navbar, Nav, NavItem, NavDropdown, MenuItem,
+    Navbar, Nav, NavItem, 
     FormGroup, FormControl, InputGroup
 } from 'react-bootstrap';
 
@@ -26,12 +26,12 @@ class HeaderLinks extends Component{
 
                     <NavItem eventKey={3} href="#/pending-orders">
                         <i className="pe-7s-gift"></i>
-                        <p>Orders</p>
+                        <p>Pending Orders</p>
                     </NavItem>
 
-                    <NavItem eventKey={3} href="#/generate-deliveries">
+                    <NavItem eventKey={3} href="#/orders-history">
                         <i className="pe-7s-car"></i>
-                        <p>Plan Delivery</p>
+                        <p>Orders</p>
                     </NavItem>
 
                  
@@ -40,61 +40,12 @@ class HeaderLinks extends Component{
                         <p>Deliveries</p>
                     </NavItem>
 
-                    <NavDropdown
-                        eventKey={2}
-                        title={(
-                            <div>
-                                <i className="fa fa-gavel"></i>
-                                <p className="hidden-md hidden-lg">
-                                    Actions
-                                    <b className="caret"></b>
-                                </p>
-                            </div>
-                        )} noCaret id="basic-nav-dropdown-1">
-                        <MenuItem eventKey={2.1}>Add Order</MenuItem>
-                        <MenuItem eventKey={2.4}>Orders History</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem eventKey={2.2}>Register Provider</MenuItem>
-                        <MenuItem eventKey={2.3}>Edit/Remove Provider</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem eventKey={2.1}>Configurate Plan</MenuItem>
-                    </NavDropdown>
-                    <NavDropdown
-                        eventKey={3}
-                        title={(
-                            <div>
-                                <i className="fa fa-bell-o"></i>
-                                <span className="notification">5</span>
-                                <p className="hidden-md hidden-lg">
-                                    Notifications
-                                    <b className="caret"></b>
-                                </p>
-                            </div>
-                        )} noCaret id="basic-nav-dropdown-2">
-                        <MenuItem eventKey={3.1}>Notification 1</MenuItem>
-                        <MenuItem eventKey={3.2}>Notification 2</MenuItem>
-                        <MenuItem eventKey={3.3}>Notification 3</MenuItem>
-                        <MenuItem eventKey={3.4}>Notification 4</MenuItem>
-                        <MenuItem eventKey={3.5}>Another notifications</MenuItem>
-                    </NavDropdown>
-                    <NavDropdown
-                        eventKey={4}
-                        title={(
-                            <div>
-                                <i className="fa fa-list"></i>
-                                <p className="hidden-md hidden-lg">
-                                    More
-                                    <b className="caret"></b>
-                                </p>
-                            </div>
-                        )} noCaret id="basic-nav-dropdown-3" bsClass="dropdown-with-icons dropdown">
-                        <MenuItem eventKey={4.1}><i className="pe-7s-mail"></i> Messages</MenuItem>
-                        <MenuItem eventKey={4.2}><i className="pe-7s-help1"></i> Help Center</MenuItem>
-                        <MenuItem eventKey={4.3}><i className="pe-7s-tools"></i> Settings</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem eventKey={4.4}><i className="pe-7s-lock"></i> Lock Screen</MenuItem>
-                        <MenuItem eventKey={4.5}><div className="text-danger"><i className="pe-7s-close-circle"></i> Log out</div></MenuItem>
-                    </NavDropdown>
+                    <NavItem eventKey={3} href="#/pages/login-page">
+                        <i className="pe-7s-close-circle"></i>
+                        <p>Log Out</p>
+                    </NavItem>
+                 
+                   
                 </Nav>
             </div>
         );
