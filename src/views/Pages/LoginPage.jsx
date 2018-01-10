@@ -24,6 +24,10 @@ class LoginPage extends Component {
         setTimeout(function () { this.setState({ cardHidden: false }); }.bind(this), 700);
     }
 
+    componentWillMount() {
+        localStorage.clear();
+    }
+
     handleSubmit(event) {
 
         event.preventDefault();
@@ -53,20 +57,17 @@ class LoginPage extends Component {
                         pharmacy: tokenDecoded["https://lapr5.isep.pt/user_info"].pharmacy_id,
                         roles: tokenDecoded["https://lapr5.isep.pt/roles"]
                     }
-                    console.log("Roles", userInfo.roles);
+    
                     if (userInfo.roles.includes("supplier")) {
                         localStorage.setItem("token", data.token_type + " " + data.token);
-
-
-
 
                         this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
                         setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
                     } else {
-                        this.setState({ cardHidden2: false, cardTitle: "Login Failed" })
+                        this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
                     }
                 } else {
-                    this.setState({ cardHidden2: false, cardTitle: "Login Failed" })
+                    this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
                 }
 
             })
@@ -108,7 +109,8 @@ class LoginPage extends Component {
                                     </div>
                                 }
                                 legend={
-                                    <Button type="submit" bsStyle="info" fill wd >
+                              
+                                              <Button type="submit" bsStyle="info" fill wd >
                                         Login
                                     </Button>
                                 }

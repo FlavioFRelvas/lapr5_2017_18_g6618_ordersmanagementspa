@@ -19,12 +19,7 @@ class Pages extends Component{
             case "/pages/login-page":
                 pageClass = " login-page";
                 break;
-            case "/pages/register-page":
-                pageClass = " register-page";
-                break;
-            case "/pages/lock-screen-page":
-                pageClass = " lock-page";
-                break;
+       
             default:
                 pageClass = "";
                 break;
@@ -47,7 +42,7 @@ class Pages extends Component{
                                 {
                                     pagesRoutes.map((prop,key) => {
                                         return (
-                                            <Route path={prop.path} component={prop.component}  key={key}/>
+                                         <Route path={prop.path} component={prop.component}  key={key}/>
                                         );
                                     })
                                 }
