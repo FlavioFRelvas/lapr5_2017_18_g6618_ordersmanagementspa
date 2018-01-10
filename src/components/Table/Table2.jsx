@@ -84,18 +84,18 @@ class Table2 extends Component {
                                            {/*Visited Waypoints*/}
 
                                         {prop[3].map((wayp, key3) => {
+                                            console.log("wayp", wayp);
                                             
                                             return (
                                                 <ul key={key3}><b>Waypoints</b>
-                                                    {wayp.map((coords, key5) => {
-                                                        return(
+                                                  
                                                            
-                                                               <li><tr>Latitude: {coords[0]}</tr>
-                                                               <tr>Longitude: {coords[1]}</tr></li>
+                                                               <li><tr>Latitude: {wayp[0]}</tr>
+                                                               <tr>Longitude: {wayp[1]}</tr></li>
                                                               
                                                          
-                                                        )
-                                                    })}                                                   
+                                                        
+                                                    )                                                 
                                                 </ul>
                                             )
                                         })}

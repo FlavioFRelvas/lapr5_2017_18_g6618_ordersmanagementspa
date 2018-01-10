@@ -54,24 +54,22 @@ class Insert extends Component {
                     ]
                 });
 
-                var i, stop=[];
-                for(i=1; i<waypoints.length; i++){
+                var i, stop=[], count=0;
+                for(i=1; i<pharmacies.length; i++){
 
-                    pharmacies.map((find)=>{
-                        pharmacies.filter( (item,index) => item.waypoint===waypoints[i].id)
+                    let finded=waypoints.map((find)=>{
+                        waypoints.filter( (item,index) => item.id===pharmacies[i].waypoint)
                     });
-
-                    stop=[waypoints.filter((item,index)=> index<i)];
+                    stop[count]=i;
+                    count++;
                 }
-
-                console.log("stop",stop);
 
                 return [
                   delivery.id,
                     delivery.date,
                    pharmacies,
-                        stop,
-                  nonvisited
+                   waypoints,
+                  nonvisited, stop
                 ]
             });
     
