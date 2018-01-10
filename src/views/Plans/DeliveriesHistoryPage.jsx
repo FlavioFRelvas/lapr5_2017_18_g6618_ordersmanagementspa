@@ -37,14 +37,17 @@ class Insert extends Component {
 
                 let pharmacies= delivery.VisitedPharmacies.map((pharmacy) => {
                     return [
-                        pharmacy.name
+                        pharmacy.name,
+                        pharmacy.latitude,
+                        pharmacy.longitude
                     ]
                 });
 
                 let waypoints= delivery.OrderedWaypoints.map((way) =>{
                     return [
                         way.latitude,
-                        way.longitude
+                        way.longitude,
+                        way.id
                     ]
                 });
 
@@ -54,30 +57,58 @@ class Insert extends Component {
                     ]
                 });
 
-                var i, stop=[], count=0;
-                for(i=1; i<pharmacies.length; i++){
+                  /*
+                
+                let stop= pharmacies.map((pharm)=>{
+                   
+                    var list=[]
+                    waypoints.map((way)=>{
+                       
+                        if(way[0]===pharm[1] && way[1]===pharm[2]){
+                          list.push(way);
+                        }
+                    }) 
+                    return list[0];
+                })
+                */
 
-                    let finded=waypoints.map((find)=>{
-                        waypoints.filter( (item,index) => item.id===pharmacies[i].waypoint)
-                    });
-                    stop[count]=i;
-                    count++;
+                var i, j, finded=[];
+           
+                for(i=0;i<waypoints.length;i++){
+                    for(j=0; j<pharmacies.length; j++){
+
+                       if(waypoints[i][0]===pharmacies[j][1] &&
+                              waypoints[i][1]=== pharmacies[j][2]){
+                                finded.push(waypoints[i][2]);
+                        }
+                    }
                 }
+                console.log("finded", finded);
+
+                /*
+                var finded=pharmacies.map((find)=>{
+                    return waypoints.filter( (item) => item[1]===find[2]).collect(item[0]);
+                  
+                })
+
+              //  waypoint.filter( (item,index) => index===pharmacies[i].waypoint)
+
+              */
 
                 return [
                   delivery.id,
                     delivery.date,
                    pharmacies,
                    waypoints,
-                  nonvisited, stop
+                  nonvisited, finded
                 ]
             });
-    
+
             var deliveries= {
                 headerRow: ["Date", "Lists"],
                 dataRows: rows
             };
-
+            
             this.setState({dataTable: deliveries});
         })
     }

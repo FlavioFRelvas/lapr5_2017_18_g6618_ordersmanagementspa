@@ -77,25 +77,28 @@ class Table2 extends Component {
                                                                     <Panel collapsible header={
                                                                         <div key={key2}>
 
-                                                                            <h6>{pharm}</h6><b className="caret"></b>
+                                                                            <h6>{pharm[0]}</h6><b className="caret"></b>
                                                                         </div>
                                                                     }>
                                                                        
                                            {/*Visited Waypoints*/}
 
                                         {prop[3].map((wayp, key3) => {
-                                            console.log("wayp", wayp);
-                                            
-                                            return (
+
+                                          /*  console.log("ways", wayp);
+                                            console.log("key3", key3);
+                                            console.log("pharm", prop[2]);*/
+
+                                           /* while(wayp[2]!==data){
+
+                                            }*/
+                                             return (
                                                 <ul key={key3}><b>Waypoints</b>
-                                                  
-                                                           
-                                                               <li><tr>Latitude: {wayp[0]}</tr>
-                                                               <tr>Longitude: {wayp[1]}</tr></li>
-                                                              
-                                                         
-                                                        
-                                                    )                                                 
+
+                                                    <li>
+                                                       <tr>Id: {wayp[2]}</tr>
+                                                    <tr>Latitude: {wayp[0]}</tr>
+                                                    <tr>Longitude: {wayp[1]}</tr></li>                                             
                                                 </ul>
                                             )
                                         })}
