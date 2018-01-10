@@ -1,115 +1,88 @@
 import React, { Component } from 'react';
-// jQuery plugin - used for DataTables.net
-import $ from 'jquery';
+
 import {
     Grid, Row, Col
 } from 'react-bootstrap';
 
 import Card from 'components/Card/Card.jsx';
+import Table from 'components/Table/Table.jsx';
 
-// DataTables.net plugin - creates a tables with actions on it
-require('datatables.net-responsive');
-$.DataTable = require('datatables.net-bs');
+var config= require('../../config');
 
-const dataTable = {
-    headerRow: [ 'Order Date', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
-    footerRow: [ 'Order Date', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction'],
-    dataRows: [
-        ['Order Date1', 'Request Date', 'Item', 'Form', 'Quantity', 'Provider', 'Pharmacy', 'Time Restriction' ],
-          ]
-};
-
-class DataTables extends Component{
-    componentDidMount() {
-   
-        $("#datatables").DataTable({
-            "pagingType": "full_numbers",
-            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            responsive: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Search records",
+class Insert extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            dataTable: {
+                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
+                dataRows: []
             }
-        });
-        var table = $('#datatables').DataTable();
-
-        /*
-        // Edit record
-        table.on( 'click', '.edit', function () {
-            var $tr = $(this).closest('tr');
-
-            var data = table.row($tr).data();
-            alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
-        } );
-
-        // Delete a record
-        table.on( 'click', '.remove', function (e) {
-            var $tr = $(this).closest('tr');
-            table.row($tr).remove().draw();
-            e.preventDefault();
-        } );*/
-
-        //Like record
-        table.on( 'click', '.like', function () {
-            alert('You clicked on Like button');
-        });
+        }
     }
-    componentWillUnmount(){
-        $('.data-table-wrapper')
-        .find('table')
-        .DataTable()
-        .destroy(true);
+
+    componentWillMount(){
+        
+        fetch(config.orders_url+'api/orders', {
+            method: 'GET',
+            headers:{
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: localStorage.getItem("token"),         
+            },
+        }).then(results=> {
+            return results.json();
+        }).then(data=> {
+
+            let rows = data.map((order) => {
+
+                var input= new Date(order.requestDate).toISOString().substring(0,10);
+                var today=new Date().toISOString().substring(0,10);
+                if(input=== today){
+
+                    return [
+                    order.requestDate,
+                    order.orderDate,
+                    order.itemName,
+                    order.form,
+                    order.quantity,
+                    order.pharmacy,
+                    order.timeRestriction,
+                    order.provider.name
+                    ]
+                }else{
+                    return [];
+                }
+            });
+
+            var orders= {
+                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
+                dataRows: rows.filter( (item,index) => item.length!==0)
+            };
+
+            this.setState({ dataTable: orders});
+        })
     }
-    shouldComponentUpdate() {
-        return false;
-    }
+    
+
     render() {
-        return (
+            var table=null;
+
+            if (this.state.dataTable.dataRows=== undefined||this.state.dataTable.dataRows ===null ||this.state.dataTable.dataRows=== undefined || this.state.dataTable.dataRows.length !== 0) {
+                table = <Table title="Orders" content={this.state.dataTable} />
+       
+            } else {
+                table = [];
+            }
+            return(
             <div className="main-content">
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
+          
                             <h4 className="title">Pending Orders</h4>
-                            <p className="category">Orders received since XXX and waiting for delivery</p>
+                            <p className="category">Pendings orders waiting for delivery plan.</p>
                             <Card
-                                title="Table"
-                                content={
-                                    <div className="fresh-datatables">
-                                        <table id="datatables" ref="main" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{width:"100%"}}>
-                                            <thead>
-                                                <tr>
-                                                    
-                                                    <th>{ dataTable.headerRow[0] }</th>
-                                                    <th>{ dataTable.headerRow[1] }</th>
-                                                    <th>{ dataTable.headerRow[2] }</th>
-                                                    <th>{ dataTable.headerRow[3] }</th>
-                                                    <th>{ dataTable.headerRow[4] }</th>
-                                                    <th>{ dataTable.headerRow[5] }</th>
-                                                    <th>{ dataTable.headerRow[6] }</th>
-                                                    <th>{ dataTable.headerRow[7] }</th>
-                                 
-                                                    <th className="disabled-sorting text-right">{ dataTable.headerRow[8] }</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tfoot>
-                                                <tr>
-                                                    <th>{ dataTable.footerRow[0] }</th>
-                                                    <th>{ dataTable.footerRow[1] }</th>
-                                                    <th>{ dataTable.footerRow[2] }</th>
-                                                    <th>{ dataTable.footerRow[3] }</th>
-                                                    <th>{ dataTable.footerRow[4] }</th>
-                                                    <th>{ dataTable.footerRow[5] }</th>
-                                                    <th>{ dataTable.footerRow[6] }</th>
-                                                    <th>{ dataTable.footerRow[7] }</th>
-                                                               
-                                                    <th className="text-right">{ dataTable.footerRow[8] }</th>
-                                                </tr>
-                                            </tfoot>
-                                          
-                                        </table>
-                                    </div>
-                                }
+                                content= {table}
                             />
                         </Col>
                     </Row>
@@ -119,4 +92,4 @@ class DataTables extends Component{
     }
 }
 
-export default DataTables;
+export default Insert;

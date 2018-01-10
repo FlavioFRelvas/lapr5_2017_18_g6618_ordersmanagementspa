@@ -34,23 +34,31 @@ class Insert extends Component {
         }).then(data=> {
 
             let rows = data.map((order) => {
-                return [
-                   order.requestDate,
-                   order.orderDate,
-                   order.itemName,
-                   order.form,
-                   order.quantity,
-                   order.pharmacy,
-                   order.timeRestriction,
-                   order.provider.name
-                ]
+
+                var input= new Date(order.requestDate).toISOString().substring(0,10);
+                var today=new Date().toISOString().substring(0,10);
+                if(input!== today){
+
+                    return [
+                    order.requestDate,
+                    order.orderDate,
+                    order.itemName,
+                    order.form,
+                    order.quantity,
+                    order.pharmacy,
+                    order.timeRestriction,
+                    order.provider.name
+                    ]
+                }else{
+                    return [];
+                }
             });
-            console.log("DataRows", rows);
 
             var orders= {
                 headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
-                dataRows: rows
+                dataRows: rows.filter( (item,index) => item.length!== 0)
             };
+
             this.setState({ dataTable: orders});
         })
     }

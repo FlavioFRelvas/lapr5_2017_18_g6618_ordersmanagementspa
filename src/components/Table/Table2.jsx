@@ -39,7 +39,7 @@ class Table2 extends Component {
         // var table = $('#datatables').DataTable();
     }
     render() {
- 
+      
         return <Card
             title={this.state.title}
             content={

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-    Grid, Row, Col
+    Grid, Row
 } from 'react-bootstrap';
 
 import Card from 'components/Card/Card.jsx';
@@ -77,6 +77,8 @@ class Insert extends Component {
             var table=null;
 
             if (this.state.dataTable.dataRows.length !== 0) {
+                console.log("test", this.state.dataTable.dataRows);
+ 
                 table = <Table2 title="Deliveries" content={this.state.dataTable} />
        
             } else {
