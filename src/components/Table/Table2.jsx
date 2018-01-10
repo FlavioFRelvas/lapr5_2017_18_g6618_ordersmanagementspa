@@ -73,11 +73,10 @@ class Table2 extends Component {
                                                     {prop[2].map((pharm, key2) => {
 
                                                         return (
-                                                            <tr key2={key}>
-                                                                <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                                                                <PanelGroup id="accordion" ref="panels" key={key2}>
 
-                                                                    <Panel collapsible header={
-                                                                        <div key={key2}>
+                                                                    <Panel collapsible key={key2} header={
+                                                                        <div>
 
                                                                             <h6>{pharm[0]}</h6><b className="caret"></b>
                                                                         </div>
@@ -89,9 +88,8 @@ class Table2 extends Component {
                                             */}
 
                                         {prop[3].map((wayp, key3) => {
-                                            console.log("prop", prop[5]);
-
-                                             return (
+                                         
+                                              return (
                                                 <ul key={key3}><b>Waypoints</b>
 
                                                     <li>
@@ -105,8 +103,6 @@ class Table2 extends Component {
 
                                     </Panel>
                                 </PanelGroup>
-
-                            </tr>
                         );
 
                     })
@@ -114,13 +110,13 @@ class Table2 extends Component {
             </td>
 
             {/*Non Visited*/}
-            <td>
+            <td key={key}>
 
                 {prop[4].map((prop, key) => {
                     
                     return (
                         <tr key={"4"}>
-                            <PanelGroup id="accordion" ref="panels" onCLick={() => this.forceUpdate()}>
+                            <PanelGroup id="accordion" ref="panels" >
                                 
                             <Panel collapsible header={
                                 <div>

@@ -68,49 +68,30 @@ class Sidebar extends Component{
             <div className="sidebar" data-color="black" data-image={image}>
                 <div className="sidebar-background" style={bgImage}></div>
                 <div className="logo">
-                	<a href="http://www.creative-tim.com" className="simple-text logo-mini">
+                	<a className="simple-text logo-mini">
                         <div className="logo-img">
                             <img src={logo} alt="react-logo" />
                         </div>
                 	</a>
-                	<a href="http://www.creative-tim.com" className="simple-text logo-normal">
+                	<a className="simple-text logo-normal">
                 		Orders SPA
                 	</a>
                 </div>
+
+                
                 <div className="sidebar-wrapper" ref="sidebarWrapper">
+                    
                     <div className="user">
                         <div className="photo">
                             <img src={avatar} alt="Avatar"/>
                         </div>
+                        
                         <div className="info">
-                            <a onClick={ ()=> this.setState({ openAvatar: !this.state.openAvatar })}>
+                           
                                 <span>
                                     Supplier
-                                    <b className={this.state.openAvatar ? "caret rotate-180":"caret"}></b>
-                                </span>
-                            </a>
-                            <Collapse in={this.state.openAvatar}>
-                                <ul className="nav">
-                                    <li>
-                						<a>
-                							<span className="sidebar-mini">MP</span>
-                							<span className="sidebar-normal">My Profile</span>
-                						</a>
-                					</li>
-                					<li>
-                						<a>
-                							<span className="sidebar-mini">EP</span>
-                							<span className="sidebar-normal">Edit Profile</span>
-                						</a>
-                					</li>
-                					<li>
-                						<a>
-                							<span className="sidebar-mini">S</span>
-                							<span className="sidebar-normal">Settings</span>
-                						</a>
-                					</li>
-                                </ul>
-                            </Collapse>
+   
+                                </span>              
                         </div>
                     </div>
 
