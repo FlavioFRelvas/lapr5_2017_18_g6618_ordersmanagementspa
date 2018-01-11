@@ -15,7 +15,10 @@ import Datetime from 'react-datetime';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
-var config=require('../../config');
+import Spinner from 'components/Spinner/Spinner.jsx';
+import SweetAlert from 'react-bootstrap-sweetalert';
+
+var config = require('../../config');
 
 class ValidationForms extends Component {
     constructor(props) {
@@ -35,39 +38,94 @@ class ValidationForms extends Component {
             type_latitude: null,
             type_longitude: null,
             pharmacies: [],
+            loading: false,
+            alert: null,
+            alertMessage: "This operation was successfull",
 
         };
+
+        this.hideAlert = this.hideAlert.bind(this);
+
         this.regex = {
             quantity: /^\d*[1-9]\d*$/
         }
     }
+    hideAlert() {
+        this.setState({
+            alert: null
+        });
+        //setTimeout(window.location.reload(), 10000);
 
+    }
+    successAlert() {
+        this.setState({
+            alert: (
+                <SweetAlert
+                    success
+                    style={{ display: "block" }}
+                    title="Created!"
+                    onConfirm={() => this.hideAlert()}
+                    onCancel={() => this.hideAlert()}
+                    confirmBtnBsStyle="info"
+                >
+                    {this.state.alertMessage}
+                </SweetAlert>
+            )
+        });
+    }
+    failAlert() {
+        this.setState({
+            alert: (
+                <SweetAlert
+                    success={false}
+                    style={{ display: "block", marginTop: "-100px" }}
+                    title="Failed!"
+                    onConfirm={() => this.hideAlert()}
+                    onCancel={() => this.hideAlert()}
+                    confirmBtnBsStyle="info"
+                >
+                    {this.state.alertMessage}
+                </SweetAlert>
+            )
+        });
+    }
     componentWillMount() {
+        this.setState({ loading: true });
         fetch('https://lapr5-g6618-pharmacy-management.azurewebsites.net/api/pharmacy',
-        {method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: localStorage.getItem("token"),
-                client_id: config.CLIENT_ID,
-                client_secret: config.CLIENT_SECRET
-            },
-        }).then(results => { 
-                return results.json();
+            {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: localStorage.getItem("token"),
+                    client_id: config.CLIENT_ID,
+                    client_secret: config.CLIENT_SECRET
+                },
+            }).then(results => {
+                if (results.status !== 500)
+                    return results.json();
+                else {
+                    return null;
+                }
             })
             .then(data => {
-                let pharmacies = data.map((pharmacy) => {
-                    
-                    return {
-                        value: pharmacy._id,
-                        label: pharmacy.name,
-                    }
-                });
+                if (data !== null) {
+                    let pharmacies = data.map((pharmacy) => {
 
-                this.setState({ pharmacies: pharmacies });
-                console.log("state", this.state.pharmacies);
+                        return {
+                            value: pharmacy._id,
+                            label: pharmacy.name,
+                        }
+                    });
+
+                    this.setState({ pharmacies: pharmacies, loading: false });
+                    console.log("state", this.state.pharmacies);
+                } else {
+                    this.setState({ pharmacies: [], loading: false, alertMessage: "Error loading pharmacies." });
+                    this.failAlert();
+                }
             });
-    }   
+    }
 
     handleTypeValidation() {
 
@@ -82,11 +140,14 @@ class ValidationForms extends Component {
     }
 
     render() {
+        if (this.state.loading) {
+            return <Spinner show={this.state.loading} />
+        }
         return (
             <div className="main-content">
+                {this.state.alert}
                 <Grid fluid>
                     <Row>
-
                         <Col md={12}>
                             <Form horizontal>
                                 <Card
@@ -141,7 +202,7 @@ class ValidationForms extends Component {
                                                 <Col componentClass={ControlLabel} sm={2} smOffset={2}>
                                                     Pharmacy
                                             </Col>
-                                             <Col sm={6}>
+                                                <Col sm={6}>
 
                                                     <Select
                                                         placeholder="Select Pharmacy"
@@ -150,7 +211,7 @@ class ValidationForms extends Component {
                                                         options={this.state.pharmacies}
                                                         onChange={(value) => {
                                                             this.setState({ singleSelect: value });
-                                                      }}
+                                                        }}
                                                     />
                                                     {this.state.type_selectError}
                                                 </Col>
@@ -196,9 +257,9 @@ class ValidationForms extends Component {
                                                     <Datetime
                                                         dateFormat={false}
                                                         inputProps={{ placeholder: "Start" }}
-                                                       defaultValue={new Date()}
+                                                        defaultValue={new Date()}
 
-                                                />
+                                                    />
                                                 </Col>
                                             </FormGroup>
                                         </div>

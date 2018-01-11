@@ -5,8 +5,8 @@ import { Grid, Col, Row } from 'react-bootstrap';
 import ChartistGraph from 'react-chartist';
 // function that returns a color based on an interval of numbers
 import { scaleLinear } from "d3-scale";
-
-import {getOrdersHistoryInfo, getPendingOrdersInfo} from '../../components/Information/Information';
+import Spinner from 'components/Spinner/Spinner.jsx';
+import { getOrdersHistoryInfo, getPendingOrdersInfo } from '../../components/Information/Information';
 import $ from 'jquery';
 
 // react components used to create a SVG / Vector map
@@ -50,7 +50,10 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             windowHeight: window.innerHeight,
-            windowWidth: window.innerWidth
+            windowWidth: window.innerWidth,
+            loading1: false,
+            loading2: false,
+            loading3: false,
         };
         this.handleResize = this.handleResize.bind(this);
     }
@@ -62,12 +65,10 @@ class Dashboard extends Component {
         })
     };
 
-    componentWillMount()
-    {
+    componentWillMount() {
+        this.setState({ loading1: true })
 
-
-
-        getOrdersHistoryInfo().then((orders_info) =>{
+        getOrdersHistoryInfo().then((orders_info) => {
             var map = [];
             var series1 = [];
 
@@ -76,22 +77,19 @@ class Dashboard extends Component {
                 series: []
             };
 
-            for(var i = 0; i < orders_info.length;i++)
-            {
+            for (var i = 0; i < orders_info.length; i++) {
 
-                if(data.labels.indexOf(orders_info[i][5])== -1)
-                {
+                if (data.labels.indexOf(orders_info[i][5]) == -1) {
                     data.labels.push(orders_info[i][5]);
                     map[orders_info[i][5]] = orders_info[i][4];
                 }
-                else{
+                else {
                     map[orders_info[i][5]] += orders_info[i][4];
                 }
 
 
             }
-            for(var i = 0 ; i < data.labels.length;i++)
-            {
+            for (var i = 0; i < data.labels.length; i++) {
                 series1.push(map[data.labels[i]]);
             }
 
@@ -103,11 +101,12 @@ class Dashboard extends Component {
             ordersData = data;
 
 
-            this.setState({ ordersData });
+            this.setState({ ordersData, loading1: false });
 
         });
 
-        getOrdersHistoryInfo().then((orders_info) =>{
+        this.setState({ loading2: true })
+        getOrdersHistoryInfo().then((orders_info) => {
             var map = [];
             var series1 = [];
 
@@ -116,9 +115,8 @@ class Dashboard extends Component {
                 series: []
             };
 
-            for(var i = 0; i < orders_info.length;i++)
-            {
-                if(orders_info[i].length > 0) {
+            for (var i = 0; i < orders_info.length; i++) {
+                if (orders_info[i].length > 0) {
                     var formatedDate = orders_info[i][0].split("T")[0];
                     if (data.labels.indexOf(formatedDate) == -1) {
                         data.labels.push(formatedDate);
@@ -130,8 +128,7 @@ class Dashboard extends Component {
                 }
 
             }
-            for(var i = 0 ; i < data.labels.length;i++)
-            {
+            for (var i = 0; i < data.labels.length; i++) {
                 series1.push(map[data.labels[i]]);
             }
 
@@ -140,13 +137,15 @@ class Dashboard extends Component {
 
 
 
-             ordersByDate = data;
+            ordersByDate = data;
 
 
-            this.setState({ ordersByDate });
+            this.setState({ ordersByDate, loading2: false });
 
         });
-        getPendingOrdersInfo().then((orders_info) =>{
+
+        this.setState({ loading3: true })
+        getPendingOrdersInfo().then((orders_info) => {
             console.log(orders_info);
             var map = [];
             var series1 = [];
@@ -156,24 +155,20 @@ class Dashboard extends Component {
                 series: []
             };
 
-            for(var i = 0; i < orders_info.length;i++)
-            {
-                if(orders_info[i].length > 0)
-                {
+            for (var i = 0; i < orders_info.length; i++) {
+                if (orders_info[i].length > 0) {
                     console.log(orders_info[i]);
-                    if(data.labels.indexOf(orders_info[i][2])== -1 )
-                    {
+                    if (data.labels.indexOf(orders_info[i][2]) == -1) {
                         data.labels.push(orders_info[i][2]);
                         map[orders_info[i][2]] = orders_info[i][4];
                     }
-                    else{
+                    else {
                         map[orders_info[i][2]] += orders_info[i][4];
                     }
                 }
 
             }
-            for(var i = 0 ; i < data.labels.length;i++)
-            {
+            for (var i = 0; i < data.labels.length; i++) {
                 series1.push(map[data.labels[i]]);
             }
 
@@ -185,7 +180,7 @@ class Dashboard extends Component {
             pendingOrdersData = data;
 
 
-            this.setState({ pendingOrdersData });
+            this.setState({ pendingOrdersData, loading3: false });
 
         });
 
@@ -215,22 +210,28 @@ class Dashboard extends Component {
                 <Card
                     title={<legend>Completed Orders information - Pharmacies comparison</legend>}
                     content={
-
-                        <ChartistGraph data={ordersData} options={options} type={type}/>
+                        <div>
+                            {this.state.loading1 ? <Spinner show={this.state.loading1} /> :
+                                <ChartistGraph data={ordersData} options={options} type={type} />}
+                        </div>
                     }
                 />
                 <Card
                     title={<legend>Pending Orders information - Most requested items</legend>}
                     content={
-
-                        <ChartistGraph data={pendingOrdersData} options={options} type={type}/>
+                        <div>
+                            {this.state.loading2 ? <Spinner show={this.state.loading2} /> :
+                                <ChartistGraph data={pendingOrdersData} options={options} type={type} />}
+                        </div>
                     }
                 />
                 <Card
                     title={<legend>Completed Orders information - Quantity by date</legend>}
                     content={
-
-                        <ChartistGraph data={ordersByDate} options={options} type={'Line'}/>
+                        <div>
+                            {this.state.loading3 ? <Spinner show={this.state.loading3} /> :
+                                <ChartistGraph data={ordersByDate} options={options} type={'Line'} />}
+                        </div>
                     }
                 />
 

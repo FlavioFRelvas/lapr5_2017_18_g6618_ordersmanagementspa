@@ -7,7 +7,7 @@ import {
 import * as jwt_decode from 'jwt-decode';
 
 import Card from 'components/Card/Card.jsx';
-
+import Spinner from 'components/Spinner/Spinner.jsx';
 import Button from 'elements/CustomButton/CustomButton.jsx';
 
 class LoginPage extends Component {
@@ -31,6 +31,7 @@ class LoginPage extends Component {
     handleSubmit(event) {
 
         event.preventDefault();
+        this.setState({ loading: true });
         fetch('https://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
             method: 'POST',
             headers: {
@@ -42,35 +43,35 @@ class LoginPage extends Component {
                 password: this.password.value,
             }),
         }).then(results => {
-
-            return results.json();
-        })
-            .then(data => {
-                console.log(data);
-
-                if (data.error == null) {
-                    const tokenDecoded = jwt_decode(data.token);
-                    let userInfo = {
-                        id: tokenDecoded.sub,
-                        name: this.email.value,
-                        email: tokenDecoded["https://lapr5.isep.pt/email"],
-                        pharmacy: tokenDecoded["https://lapr5.isep.pt/user_info"].pharmacy_id,
-                        roles: tokenDecoded["https://lapr5.isep.pt/roles"]
-                    }
-    
-                    if (userInfo.roles.includes("supplier")) {
-                        localStorage.setItem("token", data.token_type + " " + data.token);
-
-                        this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
-                        setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
-                    } else {
-                        this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
-                    }
-                } else {
-                    this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
+            if (results.status !== 500)
+                return results.json();
+            else
+                return null;
+        }).then(data => {
+            if (data !== null) {
+                const tokenDecoded = jwt_decode(data.token);
+                let userInfo = {
+                    id: tokenDecoded.sub,
+                    name: this.email.value,
+                    email: tokenDecoded["https://lapr5.isep.pt/email"],
+                    roles: tokenDecoded["https://lapr5.isep.pt/roles"]
                 }
 
-            })
+                if (userInfo.roles.includes("supplier")) {
+                    localStorage.setItem("token", data.token_type + " " + data.token);
+                    localStorage.setItem("user", userInfo.name);
+
+                    this.setState({ cardHidden2: false, cardTitle: "Login Sucessful", loading: false })
+                    setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
+                } else {
+                    this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
+                }
+            } else {
+                this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
+            }
+        }).catch(error => {
+            this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
+        })
     }
 
     render() {
@@ -109,10 +110,12 @@ class LoginPage extends Component {
                                     </div>
                                 }
                                 legend={
-                              
-                                              <Button type="submit" bsStyle="info" fill wd >
-                                        Login
-                                    </Button>
+                                    <div>
+                                        <Spinner show={this.state.loading} />
+                                        <Button type="submit" bsStyle="info" fill wd >
+                                            Login
+                                        </Button>
+                                    </div>
                                 }
                                 ftTextCenter
                             />

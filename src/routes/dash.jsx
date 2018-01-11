@@ -8,7 +8,7 @@ var dashRoutes = [
     { path: "/dashboard", name: "Dashboard", icon: "pe-7s-graph", component: Dashboard },
 
     { collapse: true, path: "/orders", name:"Orders", state:"openOrders", icon:"pe-7s-gift", views:[
-        {path: "/add-order", name: "Add Order", mini: "AO", component: AddOrderPage},
+        //{path: "/add-order", name: "Add Order", mini: "AO", component: AddOrderPage},
         {path: "/pending-orders", name:"Pending Orders", mini: "PO", component: PendingOrdersPage},
         {path: "/orders-history", name:"Orders History", mini: "OH", component: OrdersHistoryPage}
     ]},

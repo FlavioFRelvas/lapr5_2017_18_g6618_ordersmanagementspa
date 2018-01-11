@@ -47,7 +47,7 @@ class Footer extends Component {
             <footer className={"footer" + (this.props.transparent !== undefined ? " footer-transparent":"")}>
                 <div className={"container" + (this.props.fluid !== undefined ? "-fluid":"")}>{this.state.alert}
                     <p className="copyright pull-right">
-                        &copy; Orders Management Front-End -  {1900 + (new Date()).getYear()} <a href="#authors">LAPR5-6618</a>
+                        &copy; Orders Management Front-End -  {1900 + (new Date()).getYear()} <a>LAPR5-6618</a>
                     &nbsp; &nbsp;<Button onClick={this.basicAlert.bind(this)}>Authors</Button>
                  </p>
                 </div>                              
