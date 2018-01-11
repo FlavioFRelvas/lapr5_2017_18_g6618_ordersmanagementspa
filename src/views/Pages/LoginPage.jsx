@@ -7,7 +7,7 @@ import {
 import * as jwt_decode from 'jwt-decode';
 
 import Card from 'components/Card/Card.jsx';
-
+import Spinner from 'components/Spinner/Spinner.jsx';
 import Button from 'elements/CustomButton/CustomButton.jsx';
 
 class LoginPage extends Component {
@@ -31,6 +31,7 @@ class LoginPage extends Component {
     handleSubmit(event) {
 
         event.preventDefault();
+        this.setState({ loading: true });
         fetch('https://lapr5-g6618-receipts-management.azurewebsites.net/api/authenticate', {
             method: 'POST',
             headers: {
@@ -42,7 +43,21 @@ class LoginPage extends Component {
                 password: this.password.value,
             }),
         }).then(results => {
+            if (results.status !== 500)
+                return results.json();
+            else
+                return null;
+        }).then(data => {
+            if (data !== null) {
+                const tokenDecoded = jwt_decode(data.token);
+                let userInfo = {
+                    id: tokenDecoded.sub,
+                    name: this.email.value,
+                    email: tokenDecoded["https://lapr5.isep.pt/email"],
+                    roles: tokenDecoded["https://lapr5.isep.pt/roles"]
+                }
 
+<<<<<<< HEAD
             return results.json();
         })
             .then(data => {
@@ -57,17 +72,23 @@ class LoginPage extends Component {
     
                     if (userInfo.roles.includes("supplier") || userInfo.roles.includes("admin")) {
                         localStorage.setItem("token", data.token_type + " " + data.token);
+=======
+                if (userInfo.roles.includes("supplier")) {
+                    localStorage.setItem("token", data.token_type + " " + data.token);
+                    localStorage.setItem("user", userInfo.name);
+>>>>>>> 51a92cc7907bca48f140c8fc1b38648f29d9b668
 
-                        this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
-                        setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
-                    } else {
-                        this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
-                    }
+                    this.setState({ cardHidden2: false, cardTitle: "Login Sucessful", loading: false })
+                    setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
                 } else {
-                    this.setState({ cardHidden2: false, cardTitle: "Login Failed"})
+                    this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
                 }
-
-            })
+            } else {
+                this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
+            }
+        }).catch(error => {
+            this.setState({ cardHidden2: false, cardTitle: "Login Failed", loading: false })
+        })
     }
 
     render() {
@@ -106,10 +127,12 @@ class LoginPage extends Component {
                                     </div>
                                 }
                                 legend={
-                              
-                                              <Button type="submit" bsStyle="info" fill wd >
-                                        Login
-                                    </Button>
+                                    <div>
+                                        <Spinner show={this.state.loading} />
+                                        <Button type="submit" bsStyle="info" fill wd >
+                                            Login
+                                        </Button>
+                                    </div>
                                 }
                                 ftTextCenter
                             />

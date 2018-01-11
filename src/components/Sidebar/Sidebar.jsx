@@ -16,18 +16,18 @@ import logo from "logo.svg";
 
 import dashRoutes from 'routes/dash.jsx';
 
-const bgImage = {backgroundImage: "url("+image+")"};
+const bgImage = { backgroundImage: "url(" + image + ")" };
 
-class Sidebar extends Component{
-    constructor(props){
+class Sidebar extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             openAvatar: false,
-            openComponents: (this.activeRoute("/components") !== '' ? true:false),
-            openForms: (this.activeRoute("/forms") !== '' ? true:false),
-            openTables: (this.activeRoute("/tables") !== '' ? true:false),
-            openMaps: (this.activeRoute("/maps") !== '' ? true:false),
-            openPages: (this.activeRoute("/pages") !== '' ? true:false),
+            openComponents: (this.activeRoute("/components") !== '' ? true : false),
+            openForms: (this.activeRoute("/forms") !== '' ? true : false),
+            openTables: (this.activeRoute("/tables") !== '' ? true : false),
+            openMaps: (this.activeRoute("/maps") !== '' ? true : false),
+            openPages: (this.activeRoute("/pages") !== '' ? true : false),
             isWindows: (navigator.platform.indexOf('Win') > -1 ? true : false),
             width: window.innerWidth
         }
@@ -38,8 +38,8 @@ class Sidebar extends Component{
     }
     // if the windows width changes CSS has to make some changes
     // this functions tell react what width is the window
-    updateDimensions(){
-        this.setState({width:window.innerWidth});
+    updateDimensions() {
+        this.setState({ width: window.innerWidth });
     }
     componentDidMount() {
         this.updateDimensions();
@@ -49,56 +49,49 @@ class Sidebar extends Component{
             Ps.initialize(this.refs.sidebarWrapper, { wheelSpeed: 2, suppressScrollX: true });
         }
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
             setTimeout(() => { Ps.update(this.refs.sidebarWrapper) }, 350);
         }
     }
     // function that creates perfect scroll bar for windows users (it creates a scrollbar that looks like the one from apple devices)
-    isMac(){
+    isMac() {
         let bool = false;
         if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
             bool = true;
         }
         return bool;
     }
-    render(){
+    render() {
         return (
 
             <div className="sidebar" data-color="black" data-image={image}>
                 <div className="sidebar-background" style={bgImage}></div>
                 <div className="logo">
-                	<a className="simple-text logo-mini">
+                    <a className="simple-text logo-mini">
                         <div className="logo-img">
                             <img src={logo} alt="react-logo" />
                         </div>
-                	</a>
-                	<a className="simple-text logo-normal">
-                		Orders SPA
+                    </a>
+                    <a className="simple-text logo-normal">
+                        Orders SPA
                 	</a>
                 </div>
-
-                
                 <div className="sidebar-wrapper" ref="sidebarWrapper">
-                    
                     <div className="user">
-                        <div className="photo">
-                            <img src={avatar} alt="Avatar"/>
-                        </div>
-                        
-                        <div className="info">
-                           
+                        <div className="info text-center">
+                            <a>
                                 <span>
-                                    Supplier
-   
-                                </span>              
+                                    {localStorage.user}
+                                </span>
+                            </a>
                         </div>
                     </div>
 
                     <ul className="nav">
                         {/* If we are on responsive, we want both links from navbar and sidebar
                             to appear in sidebar, so we render here HeaderLinks */}
-                        { this.state.width <= 992 ? (<HeaderLinks />):null }
+                        {this.state.width <= 992 ? (<HeaderLinks />) : null}
                         {/*
                             here we render the links in the sidebar
                             if the link is simple, we make a simple link, if not,
@@ -106,22 +99,22 @@ class Sidebar extends Component{
                             with the speciffic parent button and with it's children which are the links
                         */}
                         {
-                            dashRoutes.map((prop,key) => {
+                            dashRoutes.map((prop, key) => {
                                 var st = {};
                                 st[prop["state"]] = !this.state[prop.state];
-                                if(prop.collapse){
+                                if (prop.collapse) {
                                     return (
                                         <li className={this.activeRoute(prop.path)} key={key}>
-                                            <a onClick={ ()=> this.setState(st)}>
+                                            <a onClick={() => this.setState(st)}>
                                                 <i className={prop.icon}></i>
                                                 <p>{prop.name}
-                                                   <b className={this.state[prop.state] ? "caret rotate-180":"caret"}></b>
+                                                    <b className={this.state[prop.state] ? "caret rotate-180" : "caret"}></b>
                                                 </p>
                                             </a>
                                             <Collapse in={this.state[prop.state]}>
                                                 <ul className="nav">
                                                     {
-                                                        prop.views.map((prop,key) => {
+                                                        prop.views.map((prop, key) => {
                                                             return (
                                                                 <li className={this.activeRoute(prop.path)} key={key}>
                                                                     <NavLink to={prop.path} className="nav-link" activeClassName="active">
@@ -137,10 +130,10 @@ class Sidebar extends Component{
                                         </li>
                                     )
                                 } else {
-                                    if(prop.redirect){
+                                    if (prop.redirect) {
                                         return null;
                                     }
-                                    else{
+                                    else {
                                         return (
                                             <li className={this.activeRoute(prop.path)} key={key}>
                                                 <NavLink to={prop.path} className="nav-link" activeClassName="active">
