@@ -30,9 +30,11 @@ class Insert extends Component {
                 Authorization: localStorage.getItem("token"),         
             },
         }).then(results=> {
-            return results.json();
-        }).then(data=> {
 
+            if(results.headers.status!=="400") return results.json();
+                return [];
+        }).then(data=> {
+            if(data.length!==0){
             let rows = data.map((delivery) => {
 
                 let pharmacies= delivery.VisitedPharmacies.map((pharmacy) => {
@@ -101,9 +103,8 @@ class Insert extends Component {
             };
             
             this.setState({dataTable: deliveries});
-        })
-    }
-    
+        }
+    })}
 
     render() {
             var table=null;
@@ -112,7 +113,7 @@ class Insert extends Component {
                 table = <Table2 title="Deliveries" content={this.state.dataTable} />
        
             } else {
-                table = null;
+                table = "Please authenticate to access information.";
             }
             return(
             <div className="main-content">

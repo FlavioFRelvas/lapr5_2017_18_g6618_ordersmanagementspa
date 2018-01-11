@@ -52,13 +52,10 @@ class LoginPage extends Component {
                     const tokenDecoded = jwt_decode(data.token);
                     let userInfo = {
                         id: tokenDecoded.sub,
-                        name: this.email.value,
-                        email: tokenDecoded["https://lapr5.isep.pt/email"],
-                        pharmacy: tokenDecoded["https://lapr5.isep.pt/user_info"].pharmacy_id,
                         roles: tokenDecoded["https://lapr5.isep.pt/roles"]
                     }
     
-                    if (userInfo.roles.includes("supplier")) {
+                    if (userInfo.roles.includes("supplier") || userInfo.roles.includes("admin")) {
                         localStorage.setItem("token", data.token_type + " " + data.token);
 
                         this.setState({ cardHidden2: false, cardTitle: "Login Sucessful" })
