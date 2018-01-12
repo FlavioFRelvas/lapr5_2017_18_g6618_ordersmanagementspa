@@ -139,7 +139,6 @@ class Insert extends Component {
 
     }
 
-
     render() {
         var table = null;
 

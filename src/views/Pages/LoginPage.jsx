@@ -57,7 +57,7 @@ class LoginPage extends Component {
                     roles: tokenDecoded["https://lapr5.isep.pt/roles"]
                 }
 
-                if (userInfo.roles.includes("supplier")) {
+                if (userInfo.roles.includes("supplier") || userInfo.roles.includes("admin")) {
                     localStorage.setItem("token", data.token_type + " " + data.token);
                     localStorage.setItem("user", userInfo.name);
 
