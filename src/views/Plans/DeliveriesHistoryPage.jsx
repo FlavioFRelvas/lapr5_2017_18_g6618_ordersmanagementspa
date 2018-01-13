@@ -58,15 +58,6 @@ class Insert extends Component {
                 'Content-Type': 'application/json',
                 Authorization: localStorage.getItem("token"),
             },
-<<<<<<< HEAD
-        }).then(results=> {
-
-            if(results.headers.status!=="400") return results.json();
-                return [];
-        }).then(data=> {
-            if(data.length!==0){
-            let rows = data.map((delivery) => {
-=======
         }).then(results => {
             if (results !== null)
                 return results.json();
@@ -77,11 +68,11 @@ class Insert extends Component {
                     let pharmacies = delivery.VisitedPharmacies.map((pharmacy) => {
                         return [
                             pharmacy.name,
-                            pharmacy.latitude,
-                            pharmacy.longitude
+                            pharmacy.time,
+                            pharmacy.waypoint
                         ]
                     });
-
+/*
                     let waypoints = delivery.OrderedWaypoints.map((way) => {
                         return [
                             way.latitude,
@@ -89,6 +80,7 @@ class Insert extends Component {
                             way.id
                         ]
                     });
+                    */
 
                     let nonvisited = delivery.NonVisitedPharmacies.map((non) => {
                         return [
@@ -96,113 +88,35 @@ class Insert extends Component {
                         ]
                     });
 
-
-                    //------------ WAYPOINTS BETWEEN PHARMACIES --------
-
-                    var i, j, finded = [];
-
-                    for (i = 0; i < waypoints.length; i++) {
-                        for (j = 0; j < pharmacies.length; j++) {
-
-                            if (waypoints[i][0] === pharmacies[j][1] &&
-                                waypoints[i][1] === pharmacies[j][2]) {
-                                finded.push(waypoints[i][2]);
-                            }
-                        }
-                    }
-
-                    /*
-                 var finded=pharmacies.map((find)=>{
-                     return waypoints.filter( (item) => item[1]===find[2]).collect(item[0]);
-                   
-                 })
-    
-               //  waypoint.filter( (item,index) => index===pharmacies[i].waypoint)
-    
-               */
-                    console.log("finded", finded);
->>>>>>> 51a92cc7907bca48f140c8fc1b38648f29d9b668
-
-                    //-----------------------------------------------------
-
                     return [
                         delivery.id,
                         delivery.date,
+                        delivery.TotalDistance,
                         pharmacies,
-                        waypoints,
+                       // waypoints,
                         nonvisited,
-                        finded
+                       // finded
                     ]
                 });
 
                 var deliveries = {
-                    headerRow: ["Date", "Lists"],
+                    headerRow: ["Date", "Id", "Distance", "Visited", "Non Visited"],
                     dataRows: rows
                 };
 
                 this.setState({ dataTable: deliveries, loading: false });
             }
         }).catch(error => {
-            this.setState({ loading: false, alertMessage: "Error getting pending orders." });
+            this.setState({ loading: false, alertMessage: "Error getting deliveries completed." });
             this.failAlert();
         });
 
-<<<<<<< HEAD
-                       if(waypoints[i][0]===pharmacies[j][1] &&
-                              waypoints[i][1]=== pharmacies[j][2]){
-                                finded.push(waypoints[i][2]);
-                        }
-                    }
-                }
-
-                   /*
-                var finded=pharmacies.map((find)=>{
-                    return waypoints.filter( (item) => item[1]===find[2]).collect(item[0]);
-                  
-                })
-
-              //  waypoint.filter( (item,index) => index===pharmacies[i].waypoint)
-
-              */
-                console.log("finded", finded);
-
-                //-----------------------------------------------------
-           
-                return [
-                  delivery.id,
-                    delivery.date,
-                   pharmacies,
-                   waypoints,
-                  nonvisited, 
-                  finded
-                ]
-            });
-
-            var deliveries= {
-                headerRow: ["Date", "Lists"],
-                dataRows: rows
-            };
-            
-            this.setState({dataTable: deliveries});
-        }
-    })}
-=======
     }
 
->>>>>>> 51a92cc7907bca48f140c8fc1b38648f29d9b668
 
     render() {
         var table = null;
 
-<<<<<<< HEAD
-            if (this.state.dataTable.dataRows.length !== 0) {
-                table = <Table2 title="Deliveries" content={this.state.dataTable} />
-       
-            } else {
-                table = "Please authenticate to access information.";
-            }
-            return(
-=======
         if (this.state.dataTable.dataRows.length !== 0) {
             table = <Table2 title="Deliveries" content={this.state.dataTable} />
 
@@ -210,7 +124,6 @@ class Insert extends Component {
             table = <Spinner show={this.state.loading} />;
         }
         return (
->>>>>>> 51a92cc7907bca48f140c8fc1b38648f29d9b668
             <div className="main-content">
             {this.state.alert}
                 <Grid fluid>
