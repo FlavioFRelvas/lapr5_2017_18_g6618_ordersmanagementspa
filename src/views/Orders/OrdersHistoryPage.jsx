@@ -70,8 +70,8 @@ class Insert extends Component {
                     if (input !== today) {
 
                         return [
-                            order.requestDate,
-                            order.orderDate,
+                            new Date(order.requestDate).toLocaleString(),
+                            new Date(order.orderDate).toLocaleString(),
                             order.itemName,
                             order.form,
                             order.quantity,
@@ -109,7 +109,7 @@ class Insert extends Component {
         }
         return (
             <div className="main-content">
-              {this.state.alert}
+                {this.state.alert}
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
