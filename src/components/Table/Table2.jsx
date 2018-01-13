@@ -20,7 +20,7 @@ class Table2 extends Component {
         this.state = {
             title: this.props.title,
             dataTable: {
-                headerRow: ["Date", "Id", "Visited", "Non Visited"],
+                headerRow: ["Date", "Id", "Distance", "Visited", "Non Visited"],
                 dataRows: this.props.content.dataRows
             }
         }
@@ -52,6 +52,7 @@ class Table2 extends Component {
                                 <th>{this.state.dataTable.headerRow[1]}</th>
                                 <th>{this.state.dataTable.headerRow[2]}</th>
                                 <th>{this.state.dataTable.headerRow[3]}</th>
+                                <th>{this.state.dataTable.headerRow[4]}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,12 +66,13 @@ class Table2 extends Component {
 
                                         <td>{prop[0]}</td>
                                         <td>{prop[1]}</td>
+                                        <td>{prop[2]}</td>
 
                                         <td>
                                            
 
                                                     {/*Visited Pharmacies*/}
-                                                    {prop[2].map((pharm, key2) => {
+                                                    {prop[3].map((pharm, key2) => {
 
                                                         return (
                                                                 <PanelGroup id="accordion" ref="panels" key={key2}>
@@ -85,7 +87,7 @@ class Table2 extends Component {
                                            {/*Visited Waypoints
                                            
                                             instead of prop[3] that refers to all waypoints -> prop[5]
-                                            */}
+                                            
 
                                         {prop[3].map((wayp, key3) => {
                                          
@@ -100,7 +102,12 @@ class Table2 extends Component {
                                             )
                                         })}
 
-
+*/}
+                
+                                                       <tr><b>Time:</b>{pharm[1]}</tr>
+                                                    <tr><b>Waypoint</b>: {pharm[2]}</tr>     
+                                                                                
+                                              
                                     </Panel>
                                 </PanelGroup>
                         );

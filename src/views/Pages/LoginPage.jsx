@@ -57,29 +57,9 @@ class LoginPage extends Component {
                     roles: tokenDecoded["https://lapr5.isep.pt/roles"]
                 }
 
-<<<<<<< HEAD
-            return results.json();
-        })
-            .then(data => {
-                console.log(data);
-
-                if (data.error == null) {
-                    const tokenDecoded = jwt_decode(data.token);
-                    let userInfo = {
-                        id: tokenDecoded.sub,
-                        name: this.email.value,
-                        email: tokenDecoded["https://lapr5.isep.pt/email"],
-                        pharmacy: tokenDecoded["https://lapr5.isep.pt/user_info"].pharmacy_id,
-                        roles: tokenDecoded["https://lapr5.isep.pt/roles"]
-                    }
-    
-                    if (userInfo.roles.includes("supplier")) {
-                        localStorage.setItem("token", data.token_type + " " + data.token);
-=======
-                if (userInfo.roles.includes("supplier")) {
+                if (userInfo.roles.includes("supplier") || userInfo.roles.includes("admin")) {
                     localStorage.setItem("token", data.token_type + " " + data.token);
                     localStorage.setItem("user", userInfo.name);
->>>>>>> 51a92cc7907bca48f140c8fc1b38648f29d9b668
 
                     this.setState({ cardHidden2: false, cardTitle: "Login Sucessful", loading: false })
                     setTimeout(function () { this.props.history.push('/dashboard') }.bind(this), 1000);
