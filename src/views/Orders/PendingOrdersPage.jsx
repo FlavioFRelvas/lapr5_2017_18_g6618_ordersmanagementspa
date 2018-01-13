@@ -66,6 +66,8 @@ class Insert extends Component {
                 return results.json();
             else return null;
         }).then(data => {
+
+            console.log("here", data);
             if (data !== null) {
                 console.log(data);
                 let rows = data.map((order) => {
