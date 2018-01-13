@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
-    Navbar, Nav, NavItem, 
-    FormGroup, FormControl, InputGroup
+    Nav, NavItem
 } from 'react-bootstrap';
 
 
-class HeaderLinks extends Component{
-    render(){
-        return(
+class HeaderLinks extends Component {
+    render() {
+        return (
             <div>
                 <Nav pullRight>
                     <NavItem eventKey={3} href="/dashboard">
@@ -25,7 +24,7 @@ class HeaderLinks extends Component{
                         <p>Orders</p>
                     </NavItem>
 
-                 
+
                     <NavItem eventKey={3} href="#/deliveries-history">
                         <i className="pe-7s-arc"></i>
                         <p>Deliveries</p>
@@ -35,8 +34,8 @@ class HeaderLinks extends Component{
                         <i className="pe-7s-close-circle"></i>
                         <p>Log Out</p>
                     </NavItem>
-                 
-                   
+
+
                 </Nav>
             </div>
         );

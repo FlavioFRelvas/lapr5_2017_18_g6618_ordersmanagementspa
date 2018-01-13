@@ -9,8 +9,7 @@ import HeaderLinks from 'components/Header/HeaderLinks.jsx';
 
 // backgroundImage for Sidebar
 import image from 'assets/img/full-screen-image-3.jpg';
-// image for avatar in Sidebar
-import avatar from 'assets/img/faces/face-1.jpg';
+
 // logo for sidebar
 import logo from "logo.svg";
 

@@ -64,8 +64,10 @@ class Insert extends Component {
         }).then(results => {
             if (results !== null)
                 return results.json();
+            else return null;
         }).then(data => {
             if (data !== null) {
+                console.log(data);
                 let rows = data.map((order) => {
 
                     var input = new Date(order.requestDate).toISOString().substring(0, 10);
@@ -83,6 +85,8 @@ class Insert extends Component {
                             order.provider.name
                         ]
                     } else {
+                        this.setState({ loading: false, alertMessage: "No pending orders." });
+                        this.failAlert();
                         return [];
                     }
                 });
@@ -93,6 +97,9 @@ class Insert extends Component {
                 };
 
                 this.setState({ dataTable: orders, loading: false });
+            } else {
+                this.setState({ loading: false, alertMessage: "Error getting pending orders." });
+                this.failAlert();
             }
         }).catch(error => {
             this.setState({ loading: false, alertMessage: "Error getting pending orders." });
@@ -105,7 +112,7 @@ class Insert extends Component {
     render() {
         var table = null;
 
-        if (this.state.dataTable.dataRows === undefined || this.state.dataTable.dataRows === null || this.state.dataTable.dataRows === undefined || this.state.dataTable.dataRows.length !== 0) {
+        if (this.state.dataTable.dataRows.length !== 0) {
             table = <Table title="Orders" content={this.state.dataTable} />
 
         } else {

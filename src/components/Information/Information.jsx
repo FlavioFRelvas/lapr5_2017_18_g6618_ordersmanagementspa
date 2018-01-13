@@ -19,22 +19,22 @@ export function getOrdersHistoryInfo() {
             resolve()
         }, 100000)
 
-        fetch(config.orders_url+'api/orders', {
+        fetch(config.orders_url + 'api/orders', {
             method: 'GET',
-            headers:{
+            headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: localStorage.getItem("token"),
             },
-        }).then(results=> {
+        }).then(results => {
             return results.json();
-        }).then(data=> {
+        }).then(data => {
 
             let info = data.map((order) => {
 
-                var input= new Date(order.requestDate).toISOString().substring(0,10);
-                var today=new Date().toISOString().substring(0,10);
-                if(input!== today){
+                var input = new Date(order.requestDate).toISOString().substring(0, 10);
+                var today = new Date().toISOString().substring(0, 10);
+                if (input !== today) {
 
                     return [
                         order.requestDate,
@@ -46,12 +46,14 @@ export function getOrdersHistoryInfo() {
                         order.timeRestriction,
                         order.provider.name
                     ]
-                }else{
-                    return [];
+                } else {
+                    throw null;
                 }
             });
-                resolve(info);
-            })
+            resolve(info);
+        }).catch(error => {
+            resolve(null);
+        });
     });
 }
 
@@ -61,22 +63,22 @@ export function getPendingOrdersInfo() {
             resolve()
         }, 100000)
 
-        fetch(config.orders_url+'api/orders', {
+        fetch(config.orders_url + 'api/orders', {
             method: 'GET',
-            headers:{
+            headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization: localStorage.getItem("token"),
             },
-        }).then(results=> {
+        }).then(results => {
             return results.json();
-        }).then(data=> {
+        }).then(data => {
 
             let info = data.map((order) => {
 
-                var input= new Date(order.requestDate).toISOString().substring(0,10);
-                var today=new Date().toISOString().substring(0,10);
-                if(input === today){
+                var input = new Date(order.requestDate).toISOString().substring(0, 10);
+                var today = new Date().toISOString().substring(0, 10);
+                if (input === today) {
 
                     return [
                         order.requestDate,
@@ -88,12 +90,14 @@ export function getPendingOrdersInfo() {
                         order.timeRestriction,
                         order.provider.name
                     ]
-                }else{
-                    return [];
+                } else {
+                    throw null
                 }
             });
             resolve(info);
-        })
+        }).catch(error => {
+            resolve(null);
+        });
     });
 }
 
