@@ -14,6 +14,14 @@ class Information extends Component {
 }
 
 export function getOrdersHistoryInfo() {
+    /* let testToday = new Date();
+    let testDateBefore = new Date(Date.now() - (86400000*30));
+    let testDateTommorow = new Date(Date.now() + 86400000);
+    let testTodayMidnight = new Date(new Date().setHours(0, 0, 0, 0));
+    console.log("yesterday", testDateBefore);
+    console.log("today", testToday);
+    console.log("tommorow", testDateTommorow);
+    console.log("midnight today", testTodayMidnight); */
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve()
@@ -32,9 +40,11 @@ export function getOrdersHistoryInfo() {
 
             let info = data.map((order) => {
 
-                var input = new Date(order.requestDate).toISOString().substring(0, 10);
-                var today = new Date().toISOString().substring(0, 10);
-                if (input !== today) {
+                let input = new Date(order.orderDate);
+                let today = new Date(new Date().setHours(0, 0, 0, 0));
+                console.log(input < today)
+                console.log(order)
+                if (input < today) {
 
                     return [
                         order.requestDate,
@@ -44,12 +54,10 @@ export function getOrdersHistoryInfo() {
                         order.quantity,
                         order.pharmacy,
                         order.timeRestriction,
-                        order.provider.name
                     ]
-                } else {
-                    throw null;
                 }
             });
+            console.log(info)
             resolve(info);
         }).catch(error => {
             resolve(null);
@@ -58,6 +66,7 @@ export function getOrdersHistoryInfo() {
 }
 
 export function getPendingOrdersInfo() {
+
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
             resolve()
@@ -76,9 +85,9 @@ export function getPendingOrdersInfo() {
 
             let info = data.map((order) => {
 
-                var input = new Date(order.requestDate).toISOString().substring(0, 10);
-                var today = new Date().toISOString().substring(0, 10);
-                if (input === today) {
+                let input = new Date(order.orderDate);
+                let today = new Date(new Date().setHours(0, 0, 0, 0));
+                if (input >= today) {
 
                     return [
                         order.requestDate,
@@ -88,10 +97,7 @@ export function getPendingOrdersInfo() {
                         order.quantity,
                         order.pharmacy,
                         order.timeRestriction,
-                        order.provider.name
                     ]
-                } else {
-                    throw null
                 }
             });
             resolve(info);

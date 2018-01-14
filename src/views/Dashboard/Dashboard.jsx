@@ -28,6 +28,7 @@ class Dashboard extends Component {
             loading3: false,
             alert: null,
             alertMessage: null,
+            pending: false,
         };
         this.hideAlert = this.hideAlert.bind(this);
         this.handleResize = this.handleResize.bind(this);
@@ -67,125 +68,141 @@ class Dashboard extends Component {
 
         getOrdersHistoryInfo().then((orders_info) => {
             if (orders_info !== null) {
-                var map = [];
-                var series1 = [];
+                if (orders_info !== 0) {
+                    var map = [];
+                    var series1 = [];
 
-                var data = {
-                    labels: [],
-                    series: []
-                };
+                    var data = {
+                        labels: [],
+                        series: []
+                    };
 
-                for (let i = 0; i < orders_info.length; i++) {
-
-                    if (data.labels.indexOf(orders_info[i][5]) === -1) {
-                        data.labels.push(orders_info[i][5]);
-                        map[orders_info[i][5]] = orders_info[i][4];
+                    for (let i = 0; i < orders_info.length; i++) {
+                        if (orders_info[i] !== undefined)
+                            if (data.labels.indexOf(orders_info[i][5]) === -1) {
+                                data.labels.push(orders_info[i][5]);
+                                map[orders_info[i][5]] = orders_info[i][4];
+                            }
+                            else {
+                                map[orders_info[i][5]] += orders_info[i][4];
+                            }
                     }
-                    else {
-                        map[orders_info[i][5]] += orders_info[i][4];
+                    for (let i = 0; i < data.labels.length; i++) {
+                        series1.push(map[data.labels[i]]);
                     }
 
+                    data.series.push(series1);
 
+
+
+
+                    ordersData = data;
+
+
+                    this.setState({ ordersData, loading1: false, pending1: true });
+                } else {
+                    this.setState({ loading1: false });
                 }
-                for (let i = 0; i < data.labels.length; i++) {
-                    series1.push(map[data.labels[i]]);
-                }
-
-                data.series.push(series1);
-
-
-
-
-                ordersData = data;
-
-
-                this.setState({ ordersData, loading1: false });
             } else {
                 this.setState({ loading1: false, alertMessage: "Error loading orders history." });
                 this.failAlert();
             }
         });
 
-        this.setState({ loading2: true })
+        this.setState({ loading3: true })
         getOrdersHistoryInfo().then((orders_info) => {
+
             if (orders_info !== null) {
-                var map = [];
-                var series1 = [];
+                if (orders_info !== undefined) {
+                    var map = [];
+                    var series1 = [];
 
-                var data = {
-                    labels: [],
-                    series: []
-                };
+                    var data = {
+                        labels: [],
+                        series: []
+                    };
+                    console.log(orders_info)
+                    for (let i = 0; i < orders_info.length; i++) {
+                        if (orders_info[i] !== undefined) {
+                            if (orders_info[i].length > 0) {
+                                var formatedDate = orders_info[i][1].split("T")[0];
+                                if (data.labels.indexOf(formatedDate) === -1) {
+                                    data.labels.push(formatedDate);
+                                    map[formatedDate] = orders_info[i][4];
+                                }
+                                else {
+                                    map[formatedDate] += orders_info[i][4];
+                                }
+                            }
+                        }
 
-                for (let i = 0; i < orders_info.length; i++) {
-                    if (orders_info[i].length > 0) {
-                        var formatedDate = orders_info[i][0].split("T")[0];
-                        if (data.labels.indexOf(formatedDate) === -1) {
-                            data.labels.push(formatedDate);
-                            map[formatedDate] = orders_info[i][4];
-                        }
-                        else {
-                            map[formatedDate] += orders_info[i][4];
-                        }
+                    }
+                    for (let i = 0; i < data.labels.length; i++) {
+                        series1.push(map[data.labels[i]]);
                     }
 
+                    data.series.push(series1);
+
+                    ordersByDate = data;
+
+
+                    this.setState({ ordersByDate, loading3: false, pending3: true });
+                } else {
+                    this.setState({ loading3: false });
                 }
-                for (let i = 0; i < data.labels.length; i++) {
-                    series1.push(map[data.labels[i]]);
-                }
-
-                data.series.push(series1);
-
-                ordersByDate = data;
-
-
-                this.setState({ ordersByDate, loading2: false });
             } else {
-                this.setState({ loading2: false, alertMessage: "Error loading orders history." });
+                this.setState({ loading3: false, alertMessage: "Error loading orders history." });
                 this.failAlert();
             }
         });
 
-        this.setState({ loading3: true })
+        this.setState({ loading2: true })
         getPendingOrdersInfo().then((orders_info) => {
-            if (orders_info !== null) {
-                console.log(orders_info);
-                var map = [];
-                var series1 = [];
+            if (orders_info !== null && orders_info !== undefined) {
+                if (orders_info !== 0) {
+                    var map = [];
+                    var series1 = [];
 
-                var data = {
-                    labels: [],
-                    series: []
-                };
+                    var data = {
+                        labels: [],
+                        series: []
+                    };
 
-                for (let i = 0; i < orders_info.length; i++) {
-                    if (orders_info[i].length > 0) {
-                        console.log(orders_info[i]);
-                        if (data.labels.indexOf(orders_info[i][2]) === -1) {
-                            data.labels.push(orders_info[i][2]);
-                            map[orders_info[i][2]] = orders_info[i][4];
-                        }
-                        else {
-                            map[orders_info[i][2]] += orders_info[i][4];
+                    for (let i = 0; i < orders_info.length; i++) {
+                        if (orders_info[i] !== undefined) {
+                            if (orders_info[i].length > 0) {
+                                if (data.labels.indexOf(orders_info[i][2]) === -1) {
+                                    data.labels.push(orders_info[i][2]);
+                                    map[orders_info[i][2]] = orders_info[i][4];
+                                }
+                                else {
+                                    map[orders_info[i][2]] += orders_info[i][4];
+                                }
+                            }
+
                         }
                     }
+                    if (data.labels.length !== 0) {
+                        for (let i = 0; i < data.labels.length; i++) {
+                            series1.push(map[data.labels[i]]);
+                        }
 
+                        data.series.push(series1);
+
+
+
+
+                        pendingOrdersData = data;
+
+
+                        this.setState({ pendingOrdersData, loading2: false, pending2: true });
+                    } else
+                        this.setState({ loading2: false });
+                } else {
+                    this.setState({ loading2: false });
                 }
-                for (let i = 0; i < data.labels.length; i++) {
-                    series1.push(map[data.labels[i]]);
-                }
-
-                data.series.push(series1);
-
-
-
-
-                pendingOrdersData = data;
-
-
-                this.setState({ pendingOrdersData, loading3: false });
             } else {
-                this.setState({ loading3: false, alertMessage: "Error loading pending orders." });
+                this.setState({ loading2: false, alertMessage: "Error loading pending orders." });
                 this.failAlert();
             }
         });
@@ -215,20 +232,20 @@ class Dashboard extends Component {
             <div className="main-content">
                 {this.state.alert}
                 <Card
-                    title={<legend>Completed Orders information - Pharmacies comparison</legend>}
-                    content={
-                        <div>
-                            {this.state.loading1 ? <Spinner show={this.state.loading1} /> :
-                                <ChartistGraph data={ordersData} options={options} type={type} />}
-                        </div>
-                    }
-                />
-                <Card
                     title={<legend>Pending Orders information - Most requested items</legend>}
                     content={
                         <div>
                             {this.state.loading2 ? <Spinner show={this.state.loading2} /> :
-                                <ChartistGraph data={pendingOrdersData} options={options} type={type} />}
+                                (this.state.pending2 ? <ChartistGraph data={pendingOrdersData} options={options} type={type} /> : null)}
+                        </div>
+                    }
+                />
+                <Card
+                    title={<legend>Completed Orders information - Pharmacies comparison</legend>}
+                    content={
+                        <div>
+                            {this.state.loading1 ? <Spinner show={this.state.loading1} /> :
+                                (this.state.pending1 ? <ChartistGraph data={ordersData} options={options} type={type} /> : null)}
                         </div>
                     }
                 />
@@ -237,7 +254,7 @@ class Dashboard extends Component {
                     content={
                         <div>
                             {this.state.loading3 ? <Spinner show={this.state.loading3} /> :
-                                <ChartistGraph data={ordersByDate} options={options} type={'Line'} />}
+                                (this.state.pending3 ? <ChartistGraph data={ordersByDate} options={options} type={'Line'} /> : null)}
                         </div>
                     }
                 />

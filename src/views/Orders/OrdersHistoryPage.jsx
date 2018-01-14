@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 
 import Card from 'components/Card/Card.jsx';
-import Table from 'components/Table/Table.jsx';
+import Table from 'components/Table/Table3.jsx';
 
 import Spinner from 'components/Spinner/Spinner.jsx';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -17,7 +17,7 @@ class Insert extends Component {
         super(props);
         this.state = {
             dataTable: {
-                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
+                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction"],
                 dataRows: []
             },
             alert: null,
@@ -63,11 +63,12 @@ class Insert extends Component {
                 return results.json();
         }).then(data => {
             if (data !== null) {
+                //console.log(data)
                 let rows = data.map((order) => {
 
-                    var input = new Date(order.requestDate).toISOString().substring(0, 10);
-                    var today = new Date().toISOString().substring(0, 10);
-                    if (input !== today) {
+                    let input = new Date(order.orderDate);
+                    let today = new Date(new Date().setHours(0, 0, 0, 0));
+                    if (input < today) {
 
                         return [
                             new Date(order.requestDate).toLocaleString(),
@@ -77,21 +78,28 @@ class Insert extends Component {
                             order.quantity,
                             order.pharmacy,
                             order.timeRestriction,
-                            order.provider.name
-                        ]
+                        ];
                     } else {
-                        return [];
+                        return undefined;
                     }
                 });
+                //console.log(rows)
+                for (let i = rows.length - 1; i >= 0; i--) {
+                    
+                    if (rows[i] === undefined) {
+                        rows.splice(i, 1);
+                    }
+                }
 
                 var orders = {
-                    headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
-                    dataRows: rows.filter((item, index) => item.length !== 0)
+                    headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction"],
+                    dataRows: rows
                 };
 
                 this.setState({ dataTable: orders, loading: false });
             }
         }).catch(error => {
+            alert(error);
             this.setState({ loading: false, alertMessage: "Error getting pending orders." });
             this.failAlert();
         });
@@ -102,7 +110,7 @@ class Insert extends Component {
         var table = null;
 
         if (this.state.dataTable.dataRows.length !== 0) {
-            table = <Table title="Orders" content={this.state.dataTable} />
+            table = <Table id="datatables" title="Orders" content={this.state.dataTable} />
 
         } else {
             table = <Spinner show={this.state.loading} />;
@@ -116,9 +124,7 @@ class Insert extends Component {
 
                             <h4 className="title">Orders History</h4>
                             <p className="category">Consult your orders and search for one item in history.</p>
-                            <Card
-                                content={table}
-                            />
+                            {table}
                         </Col>
                     </Row>
                 </Grid>

@@ -1,7 +1,7 @@
 import Dashboard from 'views/Dashboard/Dashboard.jsx';
 import PendingOrdersPage from 'views/Orders/PendingOrdersPage.jsx';
 import OrdersHistoryPage from 'views/Orders/OrdersHistoryPage.jsx';
-import DeliveriesHistoryPage from 'views/Plans/DeliveriesHistoryPage.jsx';
+import DeliveryPlans from 'views/Plans/DeliveryPlans.jsx';
 
 var dashRoutes = [
     
@@ -17,7 +17,7 @@ var dashRoutes = [
 
     {
         collapse: true, path: "/plans", name: "Plans", state: "openPlans", icon: "pe-7s-car", views: [
-            { path: "/deliveries-history", name: "Deliveries History", mini: "DH", component: DeliveriesHistoryPage }
+            { path: "/delivery-plans", name: "Delivery plans", mini: "DP", component: DeliveryPlans }
         ]
     },
 

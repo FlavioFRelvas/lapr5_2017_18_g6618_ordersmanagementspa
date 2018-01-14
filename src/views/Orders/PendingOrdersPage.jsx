@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 
 import Card from 'components/Card/Card.jsx';
-import Table from 'components/Table/Table.jsx';
+import Table from 'components/Table/Table3.jsx';
 
 import Spinner from 'components/Spinner/Spinner.jsx';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -17,7 +17,7 @@ class Insert extends Component {
         super(props);
         this.state = {
             dataTable: {
-                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
+                headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction"],
                 dataRows: []
             },
             loading: false,
@@ -67,14 +67,14 @@ class Insert extends Component {
             else return null;
         }).then(data => {
 
-            console.log("here", data);
+            //console.log("here", data);
             if (data !== null) {
                 console.log(data);
                 let rows = data.map((order) => {
 
-                    var input = new Date(order.requestDate).toISOString().substring(0, 10);
-                    var today = new Date().toISOString().substring(0, 10);
-                    if (input === today) {
+                    let input = new Date(order.orderDate);
+                    let today = new Date(new Date().setHours(0, 0, 0, 0));
+                    if (input >= today) {
 
                         return [
                             new Date(order.requestDate).toLocaleString(),
@@ -84,21 +84,28 @@ class Insert extends Component {
                             order.quantity,
                             order.pharmacy,
                             order.timeRestriction,
-                            order.provider.name
                         ]
-                    } else {
-                        this.setState({ loading: false, alertMessage: "No pending orders." });
-                        this.failAlert();
-                        return [];
                     }
                 });
+                //console.log(rows)
+                for (let i = rows.length - 1; i >= 0; i--) {
+                    if (rows[i] === undefined) {
+                        rows.splice(i, 1);
+                    }
+                }
+                if (rows.length !== 0) {
+                    //console.log(rows)
+                    var orders = {
+                        headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction"],
+                        dataRows: rows
+                    };
 
-                var orders = {
-                    headerRow: ["Request Date", "Order Date", "Item", "Form", "Quantity", "Pharmacy", "Time Restriction", "Provider"],
-                    dataRows: rows.filter((item, index) => item.length !== 0)
-                };
-
-                this.setState({ dataTable: orders, loading: false });
+                    this.setState({ dataTable: orders, loading: false });
+                }
+                else {
+                    this.setState({ loading: false, alertMessage: "Don't exist pending orders" });
+                    this.failAlert();
+                }
             } else {
                 this.setState({ loading: false, alertMessage: "Error getting pending orders." });
                 this.failAlert();
@@ -115,7 +122,7 @@ class Insert extends Component {
         var table = null;
 
         if (this.state.dataTable.dataRows.length !== 0) {
-            table = <Table title="Orders" content={this.state.dataTable} />
+            table = <Table id="datatables" title="Orders" content={this.state.dataTable} />
 
         } else {
             table = <Spinner show={this.state.loading} />;
@@ -126,12 +133,9 @@ class Insert extends Component {
                 <Grid fluid>
                     <Row>
                         <Col md={12}>
-
                             <h4 className="title">Pending Orders</h4>
                             <p className="category">Pendings orders waiting for delivery plan.</p>
-                            <Card
-                                content={table}
-                            />
+                            {table}
                         </Col>
                     </Row>
                 </Grid>
